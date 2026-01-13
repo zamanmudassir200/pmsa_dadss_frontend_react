@@ -440,7 +440,7 @@
 //   );
 // }
 
-import  { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import {
@@ -562,7 +562,7 @@ export default function DataTable({ data = [], columns = [], onUpdate }) {
           </TableHeader>
 
           <TableBody>
-            {filteredData.map((row,index) => {
+            {filteredData.map((row, index) => {
               const isEditing = row.pf_key === editRowKey;
               return (
                 <TableRow

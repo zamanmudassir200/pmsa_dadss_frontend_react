@@ -442,20 +442,50 @@ export default function Platform() {
           className="border rounded-md px-2 py-1 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <DataTable
+      {/* <DataTable
         // data={platforms}
-        data = {showInputs ? [{
-              "pf_id": "",
-              "pf_name": "",
-              "pf_co": "",
-              "pf_info": "",
-              "pf_status": null,
-              "pf_rdt": null,
-              "pf_type": "",
-              "pf_squadron": ""
-          }, ...platforms] : platforms}
+        data={
+          showInputs
+            ? [
+                {
+                  pf_id: "",
+                  pf_name: "",
+                  pf_co: "",
+                  pf_info: "",
+                  pf_status: null,
+                  pf_rdt: null,
+                  pf_type: "",
+                  pf_squadron: "",
+                },
+                ...platforms,
+              ]
+            : platforms
+        }
         columns={columns}
         editingKey={null}
+        onUpdate={handleUpdate}
+      /> */}
+      <DataTable
+        data={
+          showInputs
+            ? [
+                {
+                  pf_id: "",
+                  pf_name: "",
+                  pf_co: "",
+                  pf_info: "",
+                  pf_status: null,
+                  pf_rdt: null,
+                  pf_type: "",
+                  pf_squadron: "",
+                },
+                ...(Array.isArray(platforms) ? platforms : []),
+              ]
+            : Array.isArray(platforms)
+            ? platforms
+            : []
+        }
+        columns={columns}
         onUpdate={handleUpdate}
       />
     </div>
