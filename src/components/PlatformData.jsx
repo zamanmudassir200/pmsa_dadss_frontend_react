@@ -700,7 +700,7 @@ export default function Platform() {
       </div>
 
       {isLoading ? (
-       <LoadingSpinner/>
+        <LoadingSpinner />
       ) : (
         <DataTable
           data={tableData}

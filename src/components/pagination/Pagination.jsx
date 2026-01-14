@@ -112,7 +112,7 @@ export default function Pagination({
                 variant={currentPage === pageNum ? "default" : "outline"}
                 size="sm"
                 onClick={() => handlePageChange(pageNum)}
-                className={`px-3 py-1 min-w-[40px] ${
+                className={`px-3 py-1 min-w-10 ${
                   currentPage === pageNum
                     ? "bg-blue-600 text-white hover:bg-blue-700"
                     : ""

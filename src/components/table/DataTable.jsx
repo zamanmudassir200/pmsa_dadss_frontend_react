@@ -268,7 +268,7 @@ export default function DataTable({
                 <TableHead className="text-white px-4 py-2 text-center sticky right-0 bg-[#063970]">
                   <div className="relative">
                     <BsThreeDotsVertical
-                      size={25  }
+                      size={25}
                       className="cursor-pointer hover:bg-white/20 p-1 rounded"
                       onClick={() => setMenuOpen((prev) => !prev)}
                     />

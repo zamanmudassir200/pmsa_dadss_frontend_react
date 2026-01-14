@@ -1,6 +1,5 @@
-
 const Heading = ({ level = 1, text, className = "", ...props }) => {
-  const Tag = `h${level}`; 
+  const Tag = `h${level}`;
 
   const headingSizes = {
     1: "text-4xl font-bold",
@@ -12,7 +11,10 @@ const Heading = ({ level = 1, text, className = "", ...props }) => {
   };
 
   return (
-    <Tag className={`${headingSizes[level] || headingSizes[3]} ${className}`} {...props}>
+    <Tag
+      className={`${headingSizes[level] || headingSizes[3]} ${className}`}
+      {...props}
+    >
       {text}
     </Tag>
   );

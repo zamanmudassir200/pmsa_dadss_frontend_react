@@ -10,12 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BsSearch } from "react-icons/bs";
 
-
-const SearchModal = ({ col, filterValues, setFilterValues,setCurrentPage }) => {
+const SearchModal = ({
+  col,
+  filterValues,
+  setFilterValues,
+  setCurrentPage,
+}) => {
   const [searchModalOpen, setSearchModalOpen] = useState(null);
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }));
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
   return (
     <div>
