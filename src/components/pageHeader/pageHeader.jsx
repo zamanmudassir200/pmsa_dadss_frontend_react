@@ -125,6 +125,8 @@
 // }
 
 // export default PageHeaderStyled;
+// 
+
 import React from "react";
 import { RxArrowLeft } from "react-icons/rx";
 import { VscAdd } from "react-icons/vsc";
@@ -201,30 +203,30 @@ function PageHeaderStyled(props) {
 
           {customChildComponent}
 
-          {currentData && (
-            <Button variant="secondary" className="flex items-center gap-2">
-              <CSVLink filename={`${title}.csv`} data={currentData || []}>
-                <div className="flex items-center gap-2">
-                  <FaFileDownload />
-                  DOWNLOAD
-                </div>
-              </CSVLink>
-            </Button>
-          )}
+          {/* {currentData && (
+            <CSVLink
+              filename={`${title}.csv`}
+              data={currentData || []}
+              className="no-underline"
+            >
+              <Button variant="secondary" className="flex items-center gap-2">
+                <FaFileDownload />
+                DOWNLOAD
+              </Button>
+            </CSVLink>
+          )} */}
 
-          {componentRef && (
+          {/* {componentRef && (
             <ReactToPrint
               trigger={() => (
                 <Button variant="secondary" className="flex items-center gap-2">
-                  <div className="flex items-center gap-2">
-                    <FaPrint />
-                    PRINT
-                  </div>
+                  <FaPrint />
+                  PRINT
                 </Button>
               )}
               content={() => componentRef.current}
             />
-          )}
+          )} */}
 
           {showButton && (
             <Button

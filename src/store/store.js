@@ -1,87 +1,79 @@
 import { create } from "zustand";
+import { nanoid } from "nanoid";
 
 export const useStore = create((set) => ({
+  // Authentication
   user: null,
   token: null,
-
+  
   login: (user, token) => set({ user, token }),
-
   logout: () => set({ user: null, token: null }),
 
-  // search: "",
-  // editingKey: null,
-
-  // setSearch: (search) => set({ search }),
-  // setEditingKey: (key) => set({ editingKey: key }),
-  // reset: () => set({ editingKey: null }),
-
-  //  data: [],
-  // isLoading: false,
-  // error: null,
-
-  // // ===== setters =====
-  // setLoading: (isLoading) => set({ isLoading }),
-  // setData: (data) => set({ data }),
-  // setError: (error) => set({ error }),
-
-  // // ===== add / remove row (Add Platform use case) =====
-  // addTempRow: (row) =>
-  //   set((state) => ({
-  //     data: [row, ...state.data],
-  //   })),
-
-  // removeTempRow: (pf_key) =>
-  //   set((state) => ({
-  //     data: state.data.filter((item) => item.pf_key !== pf_key),
-  //   })),
-
-  // updateRow: (pf_key, field, value) =>
-  //   set((state) => ({
-  //     data: state.data.map((row) =>
-  //       row.pf_key === pf_key ? { ...row, [field]: value } : row
-  //     ),
-  //   })),
-
-  // reset: () =>
-  //   set({
-  //     data: [],
-  //     isLoading: false,
-  //     error: null,
-  //   }),
-
-  platforms: [], // Original data from API
-  tempRows: [], // Temporary rows for adding new platforms
-  editingRow: null, // Currently editing row (for existing rows)
-
-  // Add new temporary row for adding platform
-  addTempRow: (rowData) =>
+  // Platform Data Management
+  platforms: [],
+  tempRows: [],
+  editingRow: null,
+  
+  // Set platforms from API
+  setPlatforms: (platforms) => set({ platforms }),
+  
+  // Temporary rows for adding
+  addTempRow: (tempId) =>
     set((state) => ({
-      tempRows: [...state.tempRows, { ...rowData, isTemp: true }],
+      tempRows: [...state.tempRows, { 
+        tempId, 
+        isTemp: true,
+        pf_id: "",
+        pf_name: "",
+        pf_type: "",
+        pf_squadron: "",
+        pf_status: "",
+        pf_co: "",
+        pf_fuelcap: "",
+        pf_watercap: "",
+        pf_info: ""
+      }]
     })),
-
-  // Remove temporary row
+    
   removeTempRow: (tempId) =>
     set((state) => ({
-      tempRows: state.tempRows.filter((row) => row.tempId !== tempId),
+      tempRows: state.tempRows.filter((row) => row.tempId !== tempId)
     })),
-
-  // Update temporary row data
+    
   updateTempRow: (tempId, field, value) =>
     set((state) => ({
       tempRows: state.tempRows.map((row) =>
         row.tempId === tempId ? { ...row, [field]: value } : row
-      ),
+      )
     })),
-
-  // Clear all temporary rows
+    
   clearTempRows: () => set({ tempRows: [] }),
-
-  // Set platforms from API
-  setPlatforms: (platforms) => set({ platforms }),
-
-  // Set editing row
+  
+  // Update existing row
+  updateRow: (pf_key, field, value) =>
+    set((state) => ({
+      platforms: state.platforms.map((row) =>
+        row.pf_key === pf_key ? { ...row, [field]: value } : row
+      )
+    })),
+    
+  // Edit row management
   setEditingRow: (row) => set({ editingRow: row }),
-
-  // Clear editing row
   clearEditingRow: () => set({ editingRow: null }),
+  
+  // Save editing changes to actual data
+  saveEditedRow: (updatedRow) =>
+    set((state) => ({
+      platforms: state.platforms.map((row) =>
+        row.pf_key === updatedRow.pf_key ? updatedRow : row
+      ),
+      editingRow: null
+    })),
+    
+  // Add new platform to actual data
+  addPlatform: (newPlatform) =>
+    set((state) => ({
+      platforms: [newPlatform, ...state.platforms],
+      tempRows: state.tempRows.filter(row => row.tempId !== newPlatform.tempId)
+    }))
 }));
