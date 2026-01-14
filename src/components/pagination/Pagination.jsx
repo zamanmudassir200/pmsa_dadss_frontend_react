@@ -1,7 +1,12 @@
-// components/Pagination.jsx
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export default function Pagination({
   currentPage = 1,
   totalItems = 0,
@@ -133,9 +138,9 @@ export default function Pagination({
       </div>
 
       {/* Items per page selector */}
-      <div className="flex items-center space-x-2">
+      {/* <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-600">Show:</span>
-        <select
+        <Select
           className="border rounded-md px-2 py-1 text-sm"
           onChange={(e) => onPageChange(1, parseInt(e.target.value))}
           value={itemsPerPage}
@@ -145,7 +150,26 @@ export default function Pagination({
           <option value={15}>15</option>
           <option value={20}>20</option>
           <option value={50}>50</option>
-        </select>
+        </Select>
+        <span className="text-sm text-gray-600">per page</span>
+      </div> */}
+      <div className="flex items-center space-x-2">
+        <span className="text-sm text-gray-600">Show:</span>
+        <Select
+          value={itemsPerPage.toString()}
+          onValueChange={(value) => onPageChange(1, parseInt(value))}
+        >
+          <SelectTrigger className="h-8 w-17.5` border rounded-md px-2 py-1 text-sm">
+            <SelectValue placeholder={itemsPerPage.toString()} />
+          </SelectTrigger>
+          <SelectContent className="min-w-17.5">
+            <SelectItem value="5">5</SelectItem>
+            <SelectItem value="10">10</SelectItem>
+            <SelectItem value="15">15</SelectItem>
+            <SelectItem value="20">20</SelectItem>
+            <SelectItem value="50">50</SelectItem>
+          </SelectContent>
+        </Select>
         <span className="text-sm text-gray-600">per page</span>
       </div>
     </div>
