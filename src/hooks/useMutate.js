@@ -13,14 +13,9 @@ export const useMutate = ({
         queryClient.invalidateQueries({ queryKey: invalidateKey });
       }
     },
+    onError:(error)=>{
+      return error
+    }
   });
 };
 
-
-// const { mutate, isPending } = useMutate({
-//   method: "post",
-//   url: "/users",
-//   invalidateKey: ["users"],
-// });
-
-// mutate({ name: "Ali", email: "ali@gmail.com" });

@@ -15,13 +15,13 @@ import {
 } from "@/components/ui/select";
 import PageHeaderStyled from "./pageHeader/pageHeader";
 import { useStore } from "@/store/store";
+import { LoadingSpinner } from "./loadingSpinner/LoadingSpinner";
 
 export default function Platform() {
   const [search, setSearch] = useState("");
   const [showAddRow, setShowAddRow] = useState(false);
   const componentRef = useRef();
 
-  // React Hook Form
   const {
     register,
     handleSubmit,
@@ -45,7 +45,6 @@ export default function Platform() {
     mode: "onChange",
   });
 
-  // Use store for state management
   const {
     platforms,
     tempRows,
@@ -101,10 +100,11 @@ export default function Platform() {
 
   const handleAddRow = () => {
     const tempId = Date.now().toString();
+    // const tempId = 123
     addTempRow(tempId);
     setShowAddRow(true);
     clearEditingRow();
-    reset(); // Clear form when adding new row
+    reset();
   };
 
   const handleCancelAdd = (tempId) => {
@@ -137,18 +137,14 @@ export default function Platform() {
     const platformData = {
       ...tempRowData,
       ...formData,
-      // Convert numeric fields
       pf_fuelcap: formData.pf_fuelcap ? Number(formData.pf_fuelcap) : null,
       pf_watercap: formData.pf_watercap ? Number(formData.pf_watercap) : null,
     };
-    // if (tempRows.length <= 1) {
-    //   setShowAddRow(false);
-    // }
     createPlatform.mutate(platformData);
+    handleCancelAdd(platformData.tempId);
   };
 
   const handleUpdate = (rowData) => {
-    // Validate before update
     const requiredFields = [
       "pf_id",
       "pf_name",
@@ -687,22 +683,6 @@ export default function Platform() {
 
   return (
     <div className="p-6 space-y-4" ref={componentRef}>
-      {/* Validation Error Summary */}
-      {/* {hasValidationErrors && showAddRow && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h3 className="text-red-800 font-semibold mb-2">
-            Please fix the following errors:
-          </h3>
-          <ul className="list-disc list-inside text-red-600 text-sm">
-            {Object.entries(errors).map(([field, error]) => (
-              <li key={field}>
-                {field.replace("pf_", "").toUpperCase()}: {error.message}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )} */}
-
       <div className="">
         <PageHeaderStyled
           hover="Rapid access to platform data"
@@ -720,7 +700,7 @@ export default function Platform() {
       </div>
 
       {isLoading ? (
-        <div className="text-center py-8">Loading platforms...</div>
+       <LoadingSpinner/>
       ) : (
         <DataTable
           data={tableData}
