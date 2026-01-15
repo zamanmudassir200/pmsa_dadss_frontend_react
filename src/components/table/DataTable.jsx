@@ -37,6 +37,8 @@ export default function DataTable({
   onStartEdit,
   onCancelEdit,
   isLoading = false,
+  register, 
+  errors,    
   showPagination = true, // New prop to enable/disable pagination
   itemsPerPage: initialItemsPerPage = 10, // New prop for items per page
 }) {
@@ -304,7 +306,7 @@ export default function DataTable({
                         isAddingRow ? "bg-blue-50" : ""
                       }`}
                     >
-                      {dragColumns.map(
+                      {/* {dragColumns.map(
                         (col) =>
                           visibleColumns.includes(col.key) && (
                             <TableCell
@@ -340,6 +342,25 @@ export default function DataTable({
                               ) : (
                                 row[col.key] || ""
                               )}
+                            </TableCell>
+                          )
+                      )} */}
+                      {dragColumns.map(
+                        (col) =>
+                          visibleColumns.includes(col.key) && (
+                            <TableCell key={col.key}>
+                              {col.render
+                                ? col.render(
+                                    row[col.key],
+                                    row,
+                                    index,
+                                    isEditing,
+                                    isAddingRow,
+                                    handleFieldChange,
+                                    register,
+                                    errors
+                                  )
+                                : row[col.key]}
                             </TableCell>
                           )
                       )}
