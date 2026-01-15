@@ -12,9 +12,3 @@ export const useFetch = ({
   });
 };
 
-
-// const { data, isLoading } = useFetch({
-//   queryKey: ["users"],
-//   url: "/users",
-// });
-
