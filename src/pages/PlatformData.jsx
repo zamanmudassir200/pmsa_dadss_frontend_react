@@ -963,8 +963,8 @@ export default function PlatformData() {
 
 
   return (
-    <div className="p-6 space-y-4" ref={componentRef}>
-      <div className="">
+    <div className="p-3 space-y-1" ref={componentRef}>
+      <div className="my-4">
         <PageHeaderStyled
           hover="Rapid access to platform data"
           title="Platform Data"

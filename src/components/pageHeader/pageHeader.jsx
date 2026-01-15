@@ -59,11 +59,18 @@ function PageHeaderStyled(props) {
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mt-5">
         <div className="flex items-center space-x-1">
           <Tooltip>
-            <div className="flex items-center">
-              <Heading level={3} text={title} />
-              <TooltipTrigger>
-                <GrCircleInformation className="ml-1 text-gray-500" size={13} />
-              </TooltipTrigger>
+            <div className="flex items-center justify-center">
+              <div className="">
+                <Heading level={3} text={title} />
+              </div>{" "}
+              <div className="mt-2">
+                <TooltipTrigger>
+                  <GrCircleInformation
+                    className="ml-1 text-gray-500"
+                    size={13}
+                  />
+                </TooltipTrigger>
+              </div>
             </div>
             <TooltipContent>
               <p>{hover}</p>
@@ -91,19 +98,24 @@ function PageHeaderStyled(props) {
           )}
 
           {componentRef && ReactToPrint ? (
-            <ReactToPrint
-              trigger={() => (
-                <Button variant="secondary" className="flex items-center gap-2">
-                  <FaPrint />
-                  PRINT
-                </Button>
-              )}
-              content={() => componentRef.current}
-            />
+            <Button className="cursor-pointer bg-black">
+              <ReactToPrint
+                trigger={() => (
+                  <Button
+                    variant="secondary"
+                    className="flex bg-red-800 items-center gap-2"
+                  >
+                    <FaPrint />
+                    PRINT
+                  </Button>
+                )}
+                content={() => componentRef.current}
+              />
+            </Button>
           ) : (
             <Button
               variant="secondary"
-              className="flex items-center gap-2"
+              className="flex cursor-pointer bg-gray-400 hover:bg-gray-500 items-center gap-2"
               onClick={() => window.print()}
             >
               <FaPrint />
