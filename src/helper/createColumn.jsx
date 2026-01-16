@@ -31,7 +31,14 @@ const createColumn = ({
     ? { required: "Required", ...field.validation }
     : field.validation || {};
 
-  const renderCell = (text, record, index, isEditing, isAddingRow) => {
+  const renderCell = (
+    text,
+    record,
+    index,
+    isEditing,
+    isAddingRow,
+    onFieldChange
+  ) => {
     if (isAddingRow) {
       return fieldType === "select" ? (
         <div className={`relative w-36  ${errors[fieldKey] ? "py-4 " : ""}`}>
@@ -91,14 +98,12 @@ const createColumn = ({
           } relative w-36`}
         >
           <Select
-            value={record[fieldKey] || ""}
-            onValueChange={(val) =>
-              handleUpdateField(record.pf_key, fieldKey, val)
-            }
+            value={text ?? ""}
+            onValueChange={(val) => onFieldChange(fieldKey, val)}
           >
             <SelectTrigger
               className={`w-full border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-400 ${
-                !record[fieldKey] && validation.required ? "border-red-500" : ""
+                !text && validation.required ? "border-red-500" : ""
               }`}
             >
               <SelectValue placeholder={`Select ${fieldTitle}`} />
@@ -111,27 +116,25 @@ const createColumn = ({
               ))}
             </SelectContent>
           </Select>
-          {!record[fieldKey] && validation.required && (
+          {!text && validation.required && (
             <p className="absolute text-xs text-red-500 mt-1">Required</p>
           )}
         </div>
       ) : (
         <div
           className={`${
-            !record[fieldKey] && validation.required && "py-4"
+            !text && validation.required && "py-4"
           } relative w-36`}
         >
           <Input
-            value={record[fieldKey] || ""}
+            value={text ?? ""}
             placeholder={fieldTitle}
-            onChange={(e) =>
-              handleUpdateField(record.pf_key, fieldKey, e.target.value)
-            }
+            onChange={(e) => onFieldChange(fieldKey, e.target.value)}
             className={`w-36 border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-              !record[fieldKey] && validation.required ? "border-red-500" : ""
+             validation.required && !text ? "border-red-500" : ""
             }`}
           />
-          {!record[fieldKey] && validation.required && (
+          {!text && validation.required && (
             <p className="absolute text-xs text-red-500 mt-1">Required</p>
           )}
         </div>

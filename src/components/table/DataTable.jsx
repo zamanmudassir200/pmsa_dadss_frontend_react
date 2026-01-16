@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import {
   BsThreeDotsVertical,
   BsSortAlphaDown,
@@ -26,6 +26,8 @@ import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import SearchModal from "../Modals/SearchModal";
 import FilterModal from "../Modals/FilterModal";
 import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
+import PlatformFields from "@/adapters/columnsKeys";
+import { toast } from "react-toastify";
 
 export default function DataTable({
   data = [],
@@ -37,8 +39,8 @@ export default function DataTable({
   onStartEdit,
   onCancelEdit,
   isLoading = false,
-  register, 
-  errors,    
+  register,
+  errors,
   showPagination = true, // New prop to enable/disable pagination
   itemsPerPage: initialItemsPerPage = 10, // New prop for items per page
 }) {
@@ -75,28 +77,57 @@ export default function DataTable({
     nodeSelector: "th",
   };
 
-  const startEditing = (row) => {
-    setEditRowKey(row.pf_key || row.tempId);
-    setRowData({ ...row });
-    if (onStartEdit) onStartEdit(row);
-  };
+  const startEditing = useCallback(
+    (row) => {
+      const rowId = row.pf_key || row.tempId;
+      setEditRowKey(rowId);
+      const rowCopy = JSON.parse(JSON.stringify(row));
+      setRowData(rowCopy);
+    
+      if (onStartEdit) onStartEdit(rowCopy);
+    },
+    [onStartEdit]
+  );
 
-  const cancelEditing = () => {
+  const cancelEditing = useCallback(() => {
     setEditRowKey(null);
     setRowData({});
     if (onCancelEdit) onCancelEdit();
-  };
+  }, [onCancelEdit]);
 
-  const saveEditing = () => {
+  const saveEditing = useCallback(() => {
+    if (!editRowKey) return;
+    const requiredFields = Object.values(PlatformFields)
+      .filter((field) => field.validation?.required)
+      .map((field) => field.key);
+
+    const missingFields = requiredFields.filter((field) => !rowData[field]);
+    if (missingFields.length > 0) {
+      toast.error(`Missing required fields: ${missingFields.join(", ")}`);
+      return;
+    }
     if (onUpdate) {
-      onUpdate(rowData);
+      onUpdate({ ...rowData, key: editRowKey });
     }
     cancelEditing();
-  };
+  }, [editRowKey, rowData, onUpdate, cancelEditing]);
 
-  const handleFieldChange = (field, value) => {
-    setRowData((prev) => ({ ...prev, [field]: value }));
-  };
+  const handleFieldChange = useCallback((field, value) => {
+    // setRowData((prev) => ({ ...prev, [field]: value }));
+    // setRowData((prev) => {
+    //   const updated = { ...prev, [field]: value };
+    //   console.log("Field updated:", field, value, "New rowData:", updated);
+    //   return updated;
+    // });
+    setRowData((prev) => {
+      if (!prev || Object.keys(prev).length === 0) {
+        return prev;
+      }
+
+      const updated = { ...prev, [field]: value };
+      return updated;
+    });
+  }, []);
 
   const handleColumnToggle = (key) => {
     setVisibleColumns((prev) =>
@@ -193,6 +224,39 @@ export default function DataTable({
       setItemsPerPage(newItemsPerPage);
     }
   };
+  const renderCellContent = useCallback(
+    (col, row, isEditing, isAddingRow) => {
+      const isCurrentRowEditing =
+        (row.pf_key === editRowKey || row.tempId === editRowKey) && isEditing;
+
+      const cellValue = isCurrentRowEditing ? rowData[col.key] : row[col.key];
+
+      if (col.render) {
+        return col.render(
+          cellValue,
+          row,
+          row.pf_key || row.tempId,
+          isCurrentRowEditing,
+          isAddingRow,
+          handleFieldChange,
+          register,
+          errors
+        );
+      }
+
+      if (isCurrentRowEditing) {
+        return (
+          <Input
+            value={cellValue ?? ""}
+            onChange={(e) => handleFieldChange(col.key, e.target.value)}
+          />
+        );
+      }
+
+      return cellValue ?? "";
+    },
+    [editRowKey, rowData, handleFieldChange, register, errors]
+  );
 
   if (isLoading) {
     return <div className="text-center py-8">Loading table data...</div>;
@@ -306,61 +370,18 @@ export default function DataTable({
                         isAddingRow ? "bg-blue-50" : ""
                       }`}
                     >
-                      {/* {dragColumns.map(
-                        (col) =>
-                          visibleColumns.includes(col.key) && (
-                            <TableCell
-                              key={col.key}
-                              className="px-4 py-2 text-gray-700"
-                            >
-                              {col.render ? (
-                                col.render(
-                                  row[col.key] || "",
-                                  row,
-                                  index,
-                                  isEditing,
-                                  isAddingRow
-                                )
-                              ) : isEditing || isAddingRow ? (
-                                <Input
-                                  value={
-                                    isEditing
-                                      ? rowData[col.key] || ""
-                                      : row[col.key] || ""
-                                  }
-                                  onChange={(e) => {
-                                    if (isEditing) {
-                                      handleFieldChange(
-                                        col.key,
-                                        e.target.value
-                                      );
-                                    }
-                                  }}
-                                  className="w-32 px-2 py-1 border border-gray-300 rounded-md"
-                                  placeholder={col.title}
-                                />
-                              ) : (
-                                row[col.key] || ""
-                              )}
-                            </TableCell>
-                          )
-                      )} */}
+                      
                       {dragColumns.map(
                         (col) =>
                           visibleColumns.includes(col.key) && (
                             <TableCell key={col.key}>
-                              {col.render
-                                ? col.render(
-                                    row[col.key],
-                                    row,
-                                    index,
-                                    isEditing,
-                                    isAddingRow,
-                                    handleFieldChange,
-                                    register,
-                                    errors
-                                  )
-                                : row[col.key]}
+                             
+                              {renderCellContent(
+                                col,
+                                row,
+                                isEditing,
+                                isAddingRow
+                              )}
                             </TableCell>
                           )
                       )}
@@ -380,10 +401,10 @@ export default function DataTable({
                             <Button
                               size="sm"
                               onClick={saveEditing}
-                              className="flex items-center gap-1 bg-green-600 text-white hover:bg-green-700"
+                              className="flex items-center gap-1 bg-yellow-600 text-white cursor-pointer hover:bg-yellow-700"
                             >
                               <MdSave />
-                              Save
+                              Update
                             </Button>
                           </div>
                         ) : isAddingRow ? (
