@@ -2,14 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import DataTable from "@/components/table/DataTable";
 import { platformService } from "@/services/platformData.service";
-import { useFetch } from "@/hooks/useFetch";
-import { useMutate } from "@/hooks/useMutate";
+import { useFetch } from "@/hooks/common/useFetch";
+import { useMutate } from "@/hooks/common/useMutate";
 import { toast } from "react-toastify";
 import PlatformFields from "@/adapters/columnsKeys";
 import { createColumnsFromConfig } from "@/helper/createColumn";
 import PageHeaderStyled from "../components/pageHeader/pageHeader";
 import { useStore } from "@/store/store";
 import { LoadingSpinner } from "../components/loadingSpinner/LoadingSpinner";
+import { usePlatforms } from "../hooks/platform/usePlatform";
+import { getApiErrorMessage } from "@/utils/utils";
 
 export default function PlatformData() {
   const [search, setSearch] = useState("");
@@ -47,49 +49,56 @@ export default function PlatformData() {
     clearEditingRow,
   } = useStore();
 
+  // const {
+  //   data: platformsData = [],
+  //   isLoading,
+  //   refetch,
+  // } = useFetch({
+  //   queryKey: ["platforms", search],
+  //   queryFn: () => platformService.getPlatforms({ search }),
+  // });
   const {
     data: platformsData = [],
     isLoading,
     refetch,
-  } = useFetch({
-    queryKey: ["platforms", search],
-    queryFn: () => platformService.getPlatforms({ search }),
-  });
+    createPlatform,
+    updatePlatform,
+  } = usePlatforms(search);
 
-  const createPlatform = useMutate({
-    mutationFn: platformService.createPlatform,
-    invalidateKey: ["platforms"],
-    onSuccess: () => {
-      toast.success("Platform created successfully");
-      setShowAddRow(false);
-      clearTempRows();
-      reset();
-      refetch();
-    },
-    onError: (error) => {
-      toast.error(`Error during creating platform: ${error.message}`);
-    },
-  });
+  // const createPlatform = useMutate({
+  //   mutationFn: platformService.createPlatform,
+  //   invalidateKey: ["platforms"],
+  //   onSuccess: () => {
+  //     toast.success("Platform created successfully");
+  //     setShowAddRow(false);
+  //     clearTempRows();
+  //     reset();
+  //     refetch();
+  //   },
+  //   onError: (error) => {
+  //     toast.error(`Error during creating platform: ${error.message}`);
+  //   },
+  // });
 
-  const updatePlatform = useMutate({
-    mutationFn: ({ id, payload }) =>
-      platformService.updatePlatform({ id, payload }),
-    invalidateKey: ["platforms"],
-    onSuccess: () => {
-      toast.success("Platform updated successfully");
-      clearEditingRow();
-      reset();
-      refetch();
-    },
-    onError: (error) => {
-      toast.error(`Error during updating platform: ${error.message}`);
-    },
-  });
+  // const updatePlatform = useMutate({
+  //   mutationFn: ({ id, payload }) =>
+  //     platformService.updatePlatform({ id, payload }),
+  //   invalidateKey: ["platforms"],
+  //   onSuccess: () => {
+  //     toast.success("Platform updated successfully");
+  //     clearEditingRow();
+  //     reset();
+  //     refetch();
+  //   },
+  //   onError: (error) => {
+  //     toast.error(`Error during updating platform: ${error.message}`);
+  //   },
+  // });
 
   const handleAddRow = () => {
     const tempId = Date.now().toString();
     addTempRow(tempId);
-    setShowAddRow(true);
+    setShowAddRow(false);
     clearEditingRow();
     reset();
   };
@@ -123,15 +132,46 @@ export default function PlatformData() {
       pf_watercap: formData.pf_watercap ? Number(formData.pf_watercap) : null,
     };
 
-    createPlatform.mutate(platformData);
+    // createPlatform.mutate(platformData);
+    createPlatform.mutate(platformData, {
+      onSuccess: () => {
+        toast.success("Platform created successfully");
+        clearTempRows();
+        setShowAddRow(false);
+        reset();
+        refetch();
+      },
+      onError: (err) => {
+        toast.error(err.message);
+      },
+    });
     handleCancelAdd(platformData.tempId);
   };
 
   const handleUpdate = (rowData) => {
-    updatePlatform.mutate({
-      id: rowData.pf_key,
-      payload: rowData,
-    });
+    // updatePlatform.mutate({
+    //   id: rowData.pf_key,
+    //   payload: rowData,
+    // });
+    updatePlatform.mutate(
+      { id: rowData.pf_key, payload: rowData },
+      {
+        onSuccess: () => {
+          toast.success("Platform updated successfully");
+          clearEditingRow();
+          reset();
+          refetch();
+        },
+        onError: (err) => {
+          const message = getApiErrorMessage(err);
+          console.log("Update error:", err);
+          console.log("error.response.data.message", err.response.data.message);
+
+          toast.error(err.response.data.message);
+          console.log("error.response", err.response);
+        },
+      }
+    );
   };
 
   const handleTempFieldChange = (tempId, field, value) => {
@@ -142,8 +182,6 @@ export default function PlatformData() {
   const handleUpdateField = (pf_key, field, value) => {
     updateRow(pf_key, field, value);
   };
-
-
 
   const columns = createColumnsFromConfig(PlatformFields, {
     register,

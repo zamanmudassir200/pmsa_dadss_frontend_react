@@ -166,7 +166,7 @@ export default function DataTable({
   };
 
   const isTempRow = (row) => row.isTemp === true || row.tempId !== undefined;
-
+console.log("isTempRow",isTempRow)
   // Filter data based on search filters
   const filteredData = useMemo(() => {
     return (Array.isArray(data) ? data : [])
@@ -228,7 +228,7 @@ export default function DataTable({
     (col, row, isEditing, isAddingRow) => {
       const isCurrentRowEditing =
         (row.pf_key === editRowKey || row.tempId === editRowKey) && isEditing;
-
+console.log("iscurrentrow editing",isCurrentRowEditing)
       const cellValue = isCurrentRowEditing ? rowData[col.key] : row[col.key];
 
       if (col.render) {
@@ -358,7 +358,7 @@ export default function DataTable({
                   const isEditing =
                     row.pf_key === editRowKey || row.tempId === editRowKey;
                   const isAddingRow = isTempRow(row);
-
+console.log("isAddingRow",isAddingRow)
                   return (
                     <TableRow
                       key={
