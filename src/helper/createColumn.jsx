@@ -64,7 +64,7 @@ const createColumn = ({
           )}
         </div>
       ) : (
-        <div className="relative">
+        <div className={`relative ${errors[fieldKey] && "py-4"}`}>
           <Input
             {...register(fieldKey, validation)}
             value={record[fieldKey] || ""}
