@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import DataTable from "@/components/table/DataTable";
-import PlatformFields from "@/adapters/platformKeys";
+import PlatformFields from "@/adapters/platform/platformKeys";
 import { createColumnsFromConfig } from "@/helper/createColumn";
 import PageHeaderStyled from "../components/pageHeader/pageHeader";
 import { useStore } from "@/store/store";

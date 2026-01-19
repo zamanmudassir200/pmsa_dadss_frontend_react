@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import PlatformFields from "@/adapters/platformKeys";
+import PlatformFields from "@/adapters/platform/platformKeys";
 export const useStore = create((set) => ({
   // Authentication
   user: null,
@@ -73,4 +73,7 @@ export const useStore = create((set) => ({
         (row) => row.tempId !== newPlatform.tempId,
       ),
     })),
+
+  sidebarOpen: true,
+  setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
 }));

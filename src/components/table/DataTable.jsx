@@ -26,7 +26,7 @@ import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import SearchModal from "../Modals/SearchModal";
 import FilterModal from "../Modals/FilterModal";
 import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
-import PlatformFields from "@/adapters/platformKeys";
+import PlatformFields from "@/adapters/platform/platformKeys";
 import { toast } from "react-toastify";
 import { toastError } from "@/utils/toast";
 
