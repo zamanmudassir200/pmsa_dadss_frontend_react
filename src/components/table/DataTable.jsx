@@ -26,8 +26,9 @@ import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import SearchModal from "../Modals/SearchModal";
 import FilterModal from "../Modals/FilterModal";
 import { LoadingSpinner } from "../loadingSpinner/LoadingSpinner";
-import PlatformFields from "@/adapters/columnsKeys";
+import PlatformFields from "@/adapters/platformKeys";
 import { toast } from "react-toastify";
+import { toastError } from "@/utils/toast";
 
 export default function DataTable({
   data = [],
@@ -103,7 +104,7 @@ export default function DataTable({
 
     const missingFields = requiredFields.filter((field) => !rowData[field]);
     if (missingFields.length > 0) {
-      toast.error(`Missing required fields: ${missingFields.join(", ")}`);
+      toastError(`Missing required fields: ${missingFields.join(", ")}`);
       return;
     }
     if (onUpdate) {

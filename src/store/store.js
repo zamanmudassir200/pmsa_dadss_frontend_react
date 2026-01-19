@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { nanoid } from "nanoid";
-
+import PlatformFields from "@/adapters/platformKeys";
 export const useStore = create((set) => ({
   // Authentication
   user: null,
@@ -19,25 +18,18 @@ export const useStore = create((set) => ({
 
   // Temporary rows for adding
   addTempRow: (tempId) =>
-    set((state) => ({
+    set(() => ({
       tempRows: [
-        ...state.tempRows,
         {
           tempId,
           isTemp: true,
-          pf_id: "",
-          pf_name: "",
-          pf_type: "",
-          pf_squadron: "",
-          pf_status: "",
-          pf_co: "",
-          pf_fuelcap: "",
-          pf_watercap: "",
-          pf_info: "",
+          ...Object.keys(PlatformFields).reduce((acc, key) => {
+            acc[PlatformFields[key].key] = "";
+            return acc;
+          }, {}),
         },
       ],
     })),
-
   removeTempRow: (tempId) =>
     set((state) => ({
       tempRows: state.tempRows.filter((row) => row.tempId !== tempId),
@@ -46,7 +38,7 @@ export const useStore = create((set) => ({
   updateTempRow: (tempId, field, value) =>
     set((state) => ({
       tempRows: state.tempRows.map((row) =>
-        row.tempId === tempId ? { ...row, [field]: value } : row
+        row.tempId === tempId ? { ...row, [field]: value } : row,
       ),
     })),
 
@@ -56,7 +48,7 @@ export const useStore = create((set) => ({
   updateRow: (pf_key, field, value) =>
     set((state) => ({
       platforms: state.platforms.map((row) =>
-        row.pf_key === pf_key ? { ...row, [field]: value } : row
+        row.pf_key === pf_key ? { ...row, [field]: value } : row,
       ),
     })),
 
@@ -68,7 +60,7 @@ export const useStore = create((set) => ({
   saveEditedRow: (updatedRow) =>
     set((state) => ({
       platforms: state.platforms.map((row) =>
-        row.pf_key === updatedRow.pf_key ? updatedRow : row
+        row.pf_key === updatedRow.pf_key ? updatedRow : row,
       ),
       editingRow: null,
     })),
@@ -78,7 +70,7 @@ export const useStore = create((set) => ({
     set((state) => ({
       platforms: [newPlatform, ...state.platforms],
       tempRows: state.tempRows.filter(
-        (row) => row.tempId !== newPlatform.tempId
+        (row) => row.tempId !== newPlatform.tempId,
       ),
     })),
 }));

@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import DataTable from "@/components/table/DataTable";
-import PlatformFields from "@/adapters/columnsKeys";
+import PlatformFields from "@/adapters/platformKeys";
 import { createColumnsFromConfig } from "@/helper/createColumn";
 import PageHeaderStyled from "../components/pageHeader/pageHeader";
 import { useStore } from "@/store/store";
 import { LoadingSpinner } from "../components/loadingSpinner/LoadingSpinner";
 import { usePlatforms } from "../hooks/platform/usePlatform";
-import { usePlatformHandlers } from "@/hooks/platform/usePlatformHandlers";
 
 export default function PlatformData() {
   const [search, setSearch] = useState("");
@@ -30,31 +29,27 @@ export default function PlatformData() {
     mode: "onChange",
   });
 
-  const { platforms, tempRows, setEditingRow, clearEditingRow } = useStore();
+  const { setEditingRow, clearEditingRow } = useStore();
 
   const {
-    isLoading,
     refetch,
-    createPlatform,
-    updatePlatform,
-  } = usePlatforms(search);
-  const {
+    platforms,
+    tempRows,
+    isLoading,
     handleAddRow,
-    handleCancelAdd,
     handleSaveAdd,
     handleUpdate,
+    handleCancelAdd,
     handleTempFieldChange,
     handleUpdateField,
-  } = usePlatformHandlers({
+  } = usePlatforms({
+    search,
     trigger,
     watch,
     reset,
-    refetch,
-    createPlatform,
-    updatePlatform,
-    PlatformFields,
     setShowAddRow,
     setValue,
+    PlatformFields,
   });
 
   const columns = createColumnsFromConfig(PlatformFields, {
