@@ -1,21 +1,20 @@
 export const getApiErrorMessage = (error) => {
-  if (!error) return "Something went wrong";
+  if (error?.response?.data) {
+    if (typeof error.response.data === "string") {
+      // console.log("error.response.data",error.response.data)
+      return error.response.data;
+    }
 
-  // Axios error
-  if (error.response) {
-    const { data, status } = error.response;
+    if (error.response.data.message) {
+      // console.log("error.response.data.message", error.response.data.message)
+      return error.response.data.message;
+    }
 
-    if (data?.message) return data.message;
-
-    if (typeof data === "string") return data;
-
-    return `Request failed with status ${status}`;
+    if (error.response.data.error) {
+      // console.log("error.response.data.error",error.response.data.error)
+      return error.response.data.error;
+    }
   }
 
-  // Network error
-  if (error.request) {
-    return "Network error. Please check your connection.";
-  }
-
-  return error.message || "Unknown error occurred";
+  return error?.message || "Something went wrong";
 };

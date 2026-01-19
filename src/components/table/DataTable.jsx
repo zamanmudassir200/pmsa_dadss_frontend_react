@@ -48,7 +48,7 @@ export default function DataTable({
   const [rowData, setRowData] = useState({});
   const [dragColumns, setDragColumns] = useState(columns);
   const [visibleColumns, setVisibleColumns] = useState(
-    columns.map((col) => col.key)
+    columns.map((col) => col.key),
   );
   const [filterValues, setFilterValues] = useState({});
   const [menuOpen, setMenuOpen] = useState(false);
@@ -83,10 +83,10 @@ export default function DataTable({
       setEditRowKey(rowId);
       const rowCopy = JSON.parse(JSON.stringify(row));
       setRowData(rowCopy);
-    
+
       if (onStartEdit) onStartEdit(rowCopy);
     },
-    [onStartEdit]
+    [onStartEdit],
   );
 
   const cancelEditing = useCallback(() => {
@@ -131,7 +131,7 @@ export default function DataTable({
 
   const handleColumnToggle = (key) => {
     setVisibleColumns((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
     );
   };
   const handleSortClick = (columnKey) => {
@@ -166,7 +166,6 @@ export default function DataTable({
   };
 
   const isTempRow = (row) => row.isTemp === true || row.tempId !== undefined;
-console.log("isTempRow",isTempRow)
   // Filter data based on search filters
   const filteredData = useMemo(() => {
     return (Array.isArray(data) ? data : [])
@@ -178,7 +177,7 @@ console.log("isTempRow",isTempRow)
           return String(rowValue)
             .toLowerCase()
             .includes(String(filterValues[key]).toLowerCase());
-        })
+        }),
       )
       .filter((row) =>
         Object.keys(columnFilters).every((key) => {
@@ -186,7 +185,7 @@ console.log("isTempRow",isTempRow)
           if (!filterValue || filterValue.length === 0) return true;
           const rowValue = row[key];
           return filterValue.includes(rowValue);
-        })
+        }),
       );
   }, [data, filterValues, columnFilters]);
 
@@ -228,7 +227,6 @@ console.log("isTempRow",isTempRow)
     (col, row, isEditing, isAddingRow) => {
       const isCurrentRowEditing =
         (row.pf_key === editRowKey || row.tempId === editRowKey) && isEditing;
-console.log("iscurrentrow editing",isCurrentRowEditing)
       const cellValue = isCurrentRowEditing ? rowData[col.key] : row[col.key];
 
       if (col.render) {
@@ -240,7 +238,7 @@ console.log("iscurrentrow editing",isCurrentRowEditing)
           isAddingRow,
           handleFieldChange,
           register,
-          errors
+          errors,
         );
       }
 
@@ -255,7 +253,7 @@ console.log("iscurrentrow editing",isCurrentRowEditing)
 
       return cellValue ?? "";
     },
-    [editRowKey, rowData, handleFieldChange, register, errors]
+    [editRowKey, rowData, handleFieldChange, register, errors],
   );
 
   if (isLoading) {
@@ -329,7 +327,7 @@ console.log("iscurrentrow editing",isCurrentRowEditing)
                           </div>
                         </div>
                       </TableHead>
-                    )
+                    ),
                 )}
                 <TableHead className="text-white px-4 py-2 text-center sticky right-0 bg-[#063970]">
                   <div className="relative">
@@ -348,7 +346,7 @@ console.log("iscurrentrow editing",isCurrentRowEditing)
                 <TableRow>
                   <TableCell
                     colSpan={visibleColumns.length + 1}
-                    className="text-center py-8 text-gray-500"
+                    className="pl-100 py-8 text-gray-500"
                   >
                     No data found
                   </TableCell>
@@ -358,7 +356,6 @@ console.log("iscurrentrow editing",isCurrentRowEditing)
                   const isEditing =
                     row.pf_key === editRowKey || row.tempId === editRowKey;
                   const isAddingRow = isTempRow(row);
-console.log("isAddingRow",isAddingRow)
                   return (
                     <TableRow
                       key={
@@ -370,20 +367,18 @@ console.log("isAddingRow",isAddingRow)
                         isAddingRow ? "bg-blue-50" : ""
                       }`}
                     >
-                      
                       {dragColumns.map(
                         (col) =>
                           visibleColumns.includes(col.key) && (
                             <TableCell key={col.key}>
-                             
                               {renderCellContent(
                                 col,
                                 row,
                                 isEditing,
-                                isAddingRow
+                                isAddingRow,
                               )}
                             </TableCell>
-                          )
+                          ),
                       )}
 
                       <TableCell className="px-4 py-2 text-center sticky right-0 bg-white">
