@@ -71,7 +71,7 @@ export default function Pagination({
 
   return (
     <div
-      className={`flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 ${className}`}
+      className={`flex flex-col sm:flex-row items-center justify-between gap-4 mt-2 ${className}`}
     >
       {/* Showing items info */}
       <div className="text-sm text-gray-600">
@@ -120,7 +120,7 @@ export default function Pagination({
               >
                 {pageNum}
               </Button>
-            )
+            ),
           )}
         </div>
 

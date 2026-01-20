@@ -62,7 +62,7 @@ export default function PlatformData() {
   const tableData = [...tempRows, ...(platforms || [])];
 
   return (
-    <div className="p-3 space-y-1" ref={componentRef}>
+    <div className="p-3 " ref={componentRef}>
       <div className="my-4">
         <PageHeaderStyled
           hover="Rapid access to platform data"
