@@ -74,7 +74,7 @@ const DashboardLayout = () => {
                   to={item.path}
                   end
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-1 py-2 rounded
+                    `flex items-center select-none gap-3 px-1 py-2 rounded
                     ${isActive ? "bg-gray-400" : "hover:bg-white/20"}`
                   }
                 >
@@ -89,7 +89,7 @@ const DashboardLayout = () => {
               <div key={item.label}>
                 <div
                   onClick={() => toggleMenu(item.label)}
-                  className="flex items-center justify-between px-2 py-2 cursor-pointer hover:bg-white/20 rounded"
+                  className="flex items-center justify-between px-2 py-2 cursor-pointer hover:bg-white/20 rounded select-none"
                 >
                   <div className="flex items-center gap-3">
                     <Icon size={20} />
@@ -117,11 +117,11 @@ const DashboardLayout = () => {
                             key={child.path}
                             to={child.path}
                             className={({ isActive }) =>
-                              `px-2 flex items-center gap-2  py-1 rounded text-sm
+                              `px-4 select-none flex items-center gap-2  py-1 rounded text-sm
                           ${isActive ? "bg-gray-400" : "hover:bg-white/20"}`
                             }
                           >
-                            <DropDownIcon size={18} />
+                            <DropDownIcon size={20} />
                             {child.label}
                           </NavLink>
                         );
