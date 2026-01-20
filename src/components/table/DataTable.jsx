@@ -44,6 +44,8 @@ export default function DataTable({
   errors,
   showPagination = true, // New prop to enable/disable pagination
   itemsPerPage: initialItemsPerPage = 10, // New prop for items per page
+  backgroundColor,
+  btnTitle,
 }) {
   const [editRowKey, setEditRowKey] = useState(null);
   const [rowData, setRowData] = useState({});
@@ -261,185 +263,192 @@ export default function DataTable({
     return <div className="text-center py-8">Loading table data...</div>;
     // return <LoadingSpinner />;
   }
-
+  let bgColor = !backgroundColor ? "bg-[#063970]" : backgroundColor;
   return (
     <div>
       <div className="overflow-x-auto relative" ref={tableRef}>
         <ReactDragListView.DragColumn {...dragProps}>
-          <Table className="min-w-full border border-gray-300 rounded-xl">
-            <TableHeader className="bg-[#063970] rounded-t-xl">
-              <TableRow className={"hover:bg-[#063970]"}>
-                {dragColumns.map(
-                  (col) =>
-                    visibleColumns.includes(col.key) && (
-                      <TableHead
-                        key={col.key}
-                        className="text-white r-pointer px-4 py-2 text-left font-medium relative group"
-                      >
-                        <div className="flex relative items-center justify-between">
-                          <div className="flex items-center">
-                            <Tooltip content={col.description || col.title}>
-                              <div className="flex items-center ">
-                                <span>{col.title}</span>
-                                <TooltipTrigger>
-                                  {" "}
-                                  <BsInfoCircle
-                                    className="ml-1 cursor-pointer text-white/80"
-                                    size={12}
-                                  />
-                                </TooltipTrigger>
-                                <TooltipContent className="bg-black text-white px-2 py-1 rounded-xl z-100 ">
-                                  <p>{col.title}</p>
-                                </TooltipContent>
-                              </div>
-                            </Tooltip>
+          <div className="rounded-xl overflow-hidden ">
+            <Table
+              style={{ borderRadius: "100" }}
+              className="min-w-full border border-gray-300 rounded-full"
+            >
+              <TableHeader className={`${bgColor}  rounded-full`}>
+                <TableRow className={`hover:${bgColor}  rounded-4xl`}>
+                  {dragColumns.map(
+                    (col) =>
+                      visibleColumns.includes(col.key) && (
+                        <TableHead
+                          key={col.key}
+                          className="text-white r-pointer px-4 py-2 text-left font-medium relative group"
+                        >
+                          <div className="flex relative items-center justify-between">
+                            <div className="flex items-center">
+                              <Tooltip content={col.description || col.title}>
+                                <div className="flex items-center ">
+                                  <span>{col.title}</span>
+                                  <TooltipTrigger>
+                                    {" "}
+                                    <BsInfoCircle
+                                      className="ml-1 cursor-pointer text-white/80"
+                                      size={12}
+                                    />
+                                  </TooltipTrigger>
+                                  <TooltipContent className="bg-black text-white px-2 py-1 rounded-xl z-100 ">
+                                    <p>{col.title}</p>
+                                  </TooltipContent>
+                                </div>
+                              </Tooltip>
 
-                            {/* Sort Icon */}
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="ml-1 p-0 h-4 w-4 text-white cursor-pointer hover:bg-white/20"
-                              onClick={() => handleSortClick(col.key)}
-                            >
-                              {getSortIcon(col.key)}
-                            </Button>
+                              {/* Sort Icon */}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="ml-1 p-0 h-4 w-4 text-white cursor-pointer hover:bg-white/20"
+                                onClick={() => handleSortClick(col.key)}
+                              >
+                                {getSortIcon(col.key)}
+                              </Button>
 
-                            {/* Search Icon */}
-                            {col.filtertype === "search" && (
-                              <SearchModal
-                                col={col}
-                                filterValues={filterValues}
-                                setFilterValues={setFilterValues}
-                                setCurrentPage={setCurrentPage}
-                              />
-                            )}
-
-                            {/* Filter Icon for unique columns */}
-                            {(col.filtertype === "unique" ||
-                              col.filtertype === "select") && (
-                              <FilterModal
-                                col={col}
-                                columnFilters={columnFilters}
-                                setColumnFilters={setColumnFilters}
-                                setCurrentPage={setCurrentPage}
-                                data={data}
-                              />
-                            )}
-                          </div>
-                        </div>
-                      </TableHead>
-                    ),
-                )}
-                <TableHead className="text-white px-4 py-2 text-center sticky right-0 bg-[#063970]">
-                  <div className="relative">
-                    <BsThreeDotsVertical
-                      size={25}
-                      className="cursor-pointer hover:bg-white/20 p-1 rounded"
-                      onClick={() => setMenuOpen((prev) => !prev)}
-                    />
-                  </div>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {paginatedData.length === 0 ? (
-                <TableRow>
-                  <TableCell
-                    colSpan={visibleColumns.length + 1}
-                    className="pl-100 py-8 text-gray-500"
-                  >
-                    No data found
-                  </TableCell>
-                </TableRow>
-              ) : (
-                paginatedData.map((row, index) => {
-                  const isEditing =
-                    row.pf_key === editRowKey || row.tempId === editRowKey;
-                  const isAddingRow = isTempRow(row);
-                  return (
-                    <TableRow
-                      key={
-                        isTempRow(row)
-                          ? `temp-${row.tempId}`
-                          : row.pf_key || index
-                      }
-                      className={`hover:bg-gray-50 transition-colors duration-200 ${
-                        isAddingRow ? "bg-blue-50" : ""
-                      }`}
-                    >
-                      {dragColumns.map(
-                        (col) =>
-                          visibleColumns.includes(col.key) && (
-                            <TableCell key={col.key}>
-                              {renderCellContent(
-                                col,
-                                row,
-                                isEditing,
-                                isAddingRow,
+                              {/* Search Icon */}
+                              {col.filtertype === "search" && (
+                                <SearchModal
+                                  col={col}
+                                  filterValues={filterValues}
+                                  setFilterValues={setFilterValues}
+                                  setCurrentPage={setCurrentPage}
+                                />
                               )}
-                            </TableCell>
-                          ),
-                      )}
 
-                      <TableCell className="px-4 py-2 text-center sticky right-0 bg-white">
-                        {isEditing ? (
-                          <div className="flex gap-2 justify-center">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={cancelEditing}
-                              className="flex items-center gap-1"
-                            >
-                              <MdCancel />
-                              Cancel
-                            </Button>
-                            <Button
-                              size="sm"
-                              onClick={saveEditing}
-                              className="flex items-center gap-1 bg-yellow-600 text-white cursor-pointer hover:bg-yellow-700"
-                            >
-                              <MdSave />
-                              Update
-                            </Button>
+                              {/* Filter Icon for unique columns */}
+                              {(col.filtertype === "unique" ||
+                                col.filtertype === "select") && (
+                                <FilterModal
+                                  col={col}
+                                  columnFilters={columnFilters}
+                                  setColumnFilters={setColumnFilters}
+                                  setCurrentPage={setCurrentPage}
+                                  data={data}
+                                />
+                              )}
+                            </div>
                           </div>
-                        ) : isAddingRow ? (
-                          <div className="flex gap-2 justify-center">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() =>
-                                onCancelAdd && onCancelAdd(row.tempId)
-                              }
-                              className="flex items-center gap-1"
-                            >
-                              <MdCancel />
-                              Cancel
-                            </Button>
-                            <Button
-                              size="sm"
-                              onClick={() => onAdd && onAdd(row)}
-                              className="flex items-center gap-1 bg-green-600 text-white hover:bg-green-700"
-                            >
-                              <MdSave />
-                              Add Platform
-                            </Button>
-                          </div>
-                        ) : (
-                          <MdEdit
-                            onClick={() => startEditing(row)}
-                            size={38}
-                            className="hover:bg-gray-200 p-2 rounded-lg cursor-pointer transition-all duration-300"
-                            title="Edit Row"
-                          />
+                        </TableHead>
+                      ),
+                  )}
+                  <TableHead
+                    className={`text-white px-4 py-2 text-center sticky right-0 ${bgColor}`}
+                  >
+                    <div className="relative">
+                      <BsThreeDotsVertical
+                        size={25}
+                        className="cursor-pointer hover:bg-white/20 p-1 rounded"
+                        onClick={() => setMenuOpen((prev) => !prev)}
+                      />
+                    </div>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+
+              <TableBody>
+                {paginatedData.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={visibleColumns.length + 1}
+                      className="pl-100 py-8 text-gray-500"
+                    >
+                      No data found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  paginatedData.map((row, index) => {
+                    const isEditing =
+                      row.pf_key === editRowKey || row.tempId === editRowKey;
+                    const isAddingRow = isTempRow(row);
+                    return (
+                      <TableRow
+                        key={
+                          isTempRow(row)
+                            ? `temp-${row.tempId}`
+                            : row.pf_key || index
+                        }
+                        className={`hover:bg-gray-50 transition-colors duration-200 ${
+                          isAddingRow ? "bg-blue-50" : ""
+                        }`}
+                      >
+                        {dragColumns.map(
+                          (col) =>
+                            visibleColumns.includes(col.key) && (
+                              <TableCell key={col.key}>
+                                {renderCellContent(
+                                  col,
+                                  row,
+                                  isEditing,
+                                  isAddingRow,
+                                )}
+                              </TableCell>
+                            ),
                         )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              )}
-            </TableBody>
-          </Table>
+
+                        <TableCell className="px-4 py-2 text-center sticky right-0 bg-white">
+                          {isEditing ? (
+                            <div className="flex gap-2 justify-center">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={cancelEditing}
+                                className="flex items-center gap-1"
+                              >
+                                <MdCancel />
+                                Cancel
+                              </Button>
+                              <Button
+                                size="sm"
+                                onClick={saveEditing}
+                                className="flex items-center gap-1 bg-yellow-600 text-white cursor-pointer hover:bg-yellow-700"
+                              >
+                                <MdSave />
+                                Update
+                              </Button>
+                            </div>
+                          ) : isAddingRow ? (
+                            <div className="flex gap-2 justify-center">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() =>
+                                  onCancelAdd && onCancelAdd(row.tempId)
+                                }
+                                className="flex items-center gap-1"
+                              >
+                                <MdCancel />
+                                Cancel
+                              </Button>
+                              <Button
+                                size="sm"
+                                onClick={() => onAdd && onAdd(row)}
+                                className="flex items-center gap-1 bg-green-600 text-white hover:bg-green-700"
+                              >
+                                <MdSave />
+                                {btnTitle || "Add"}
+                              </Button>
+                            </div>
+                          ) : (
+                            <MdEdit
+                              onClick={() => startEditing(row)}
+                              size={38}
+                              className="hover:bg-gray-200 p-2 rounded-lg cursor-pointer transition-all duration-300"
+                              title="Edit Row"
+                            />
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </ReactDragListView.DragColumn>
 
         {/* Column visibility modal */}

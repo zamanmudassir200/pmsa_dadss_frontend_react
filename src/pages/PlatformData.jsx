@@ -98,6 +98,8 @@ export default function PlatformData() {
             refetch();
           }}
           isLoading={isLoading}
+          // backgroundColor={"bg-red-100"}
+          btnTitle={"Add Platform"}
         />
       )}
     </div>

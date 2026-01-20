@@ -1,30 +1,15 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { sidebarLinks } from "@/adapters/sidebar/sidebarLinks";
+import { useStore } from "@/store/store";
+import React, { useState } from "react";
+import { FaChevronDown } from "react-icons/fa";
 import { GoSidebarExpand } from "react-icons/go";
 import { GoSidebarCollapse } from "react-icons/go";
-import { useStore } from "@/store/store";
-import { MdDashboard } from "react-icons/md";
-import { FaDatabase } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { sidebarLinks } from "@/adapters/sidebar/sidebarLinks";
-import { FaChevronDown } from "react-icons/fa";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
-const DashboardLayout = () => {
+import { NavLink } from "react-router-dom";
+const Drawer = ({ backgroundColor, width }) => {
   const { sidebarOpen, setSidebarOpen } = useStore();
   const [openMenus, setOpenMenus] = useState({});
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 1000) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [setSidebarOpen]);
 
   const toggleMenu = (label) => {
     setOpenMenus((prev) => ({
@@ -32,28 +17,36 @@ const DashboardLayout = () => {
       [label]: !prev[label],
     }));
   };
+  let bgColor = !backgroundColor ? "bg-gray-300" : backgroundColor;
   return (
-    <div className={`flex  `}>
-      {/* Sidebar */}
+    <div>
       <aside
-        className={`bg-gray-300 p-4 fixed h-screen  transition-all duration-300
-        ${sidebarOpen ? "w-84" : "w-16"}`}
+        className={`${bgColor} p-4 fixed h-screen  transition-all duration-300
+        ${sidebarOpen ? "w-86" : "w-20"}`}
       >
         <div className="flex mb-6 items-center justify-between">
           {sidebarOpen && (
-            <h2 className="text-xl font-bold flex items-center gap-2 select-none">
+            <h2 className="text-2xl font-bold flex items-center gap-2 select-none">
               DADSS
             </h2>
           )}
-          <div
-            className="cursor-pointer hover:bg-gray-400 select-none rounded-lg transition-all duration-200 p-1"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
+          <div className="cursor-pointer select-none rounded-lg transition-all duration-200 p-1">
             {sidebarOpen ? (
+              <MenuUnfoldOutlined
+                className="bg-white p-3 rounded-full"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              />
+            ) : (
+              <MenuFoldOutlined
+                className="bg-white p-3 rounded-full"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              />
+            )}
+            {/* {sidebarOpen ? (
               <GoSidebarExpand size={22} />
             ) : (
               <GoSidebarCollapse size={22} />
-            )}
+            )} */}
           </div>
         </div>
 
@@ -134,15 +127,8 @@ const DashboardLayout = () => {
           })}
         </nav>
       </aside>
-
-      {/* Right Content */}
-      <main
-        className={`flex-1 h-screen ${sidebarOpen ? "pl-86" : "pl-18"}  bg-gray-100 overflow-y-auto `}
-      >
-        <Outlet />
-      </main>
     </div>
   );
 };
 
-export default DashboardLayout;
+export default Drawer;

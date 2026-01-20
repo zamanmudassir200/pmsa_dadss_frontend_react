@@ -76,4 +76,8 @@ export const useStore = create((set) => ({
 
   sidebarOpen: true,
   setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
+  openMenus: {},
+  setOpenMenus: (openMenus) => set({ openMenus }),
+  jettyData: [],
+  setJettyData: (jettyData) => set({ jettyData }),
 }));

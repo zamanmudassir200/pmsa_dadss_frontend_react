@@ -17,12 +17,14 @@ import { GiMedicalPack } from "react-icons/gi";
 import { PiChartLineUpBold } from "react-icons/pi";
 import { FaAnchor } from "react-icons/fa";
 import { SiRescuetime } from "react-icons/si";
+import { RxDashboard } from "react-icons/rx";
 
 export const sidebarLinks = [
   {
     label: "Home",
     path: "dashboard",
-    icon: IoGridOutline,
+    // icon: IoGridOutline,
+    icon: RxDashboard,
   },
   {
     label: "Admin",

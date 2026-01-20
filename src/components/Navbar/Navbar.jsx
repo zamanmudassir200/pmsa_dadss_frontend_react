@@ -1,4 +1,5 @@
 import React from "react";
+import Heading from "../title/Heading";
 
 const Navbar = () => {
   return (
@@ -7,6 +8,11 @@ const Navbar = () => {
         PAKISTAN MARITIME SECURITY AGENCY <br /> DATA ANALYSIS DECISION SUPPORT
         SYSTEM (DADSS)
       </h1>
+      {/* <Heading
+        level={6}
+        text={`PAKISTAN MARITIME SECURITY AGENCY <br /> DATA ANALYSIS DECISION SUPPORT
+        SYSTEM (DADSS)`}
+      /> */}
     </div>
   );
 };

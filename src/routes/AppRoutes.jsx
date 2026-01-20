@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import DashboardLayout from "@/pages/DashboardLayout";
+import DashboardLayout from "@/components/DashboardLayout";
 import Navbar from "@/components/Navbar/Navbar";
 import { pagesMap } from "./pagesMap";
 import { sidebarLinks } from "@/adapters/sidebar/sidebarLinks";

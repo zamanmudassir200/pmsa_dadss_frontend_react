@@ -1,6 +1,6 @@
 export const platformAdapter = {
   toFrontend: (raw) => ({
-    pf_key: raw.pf_key ?? raw.pf_id, 
+    pf_key: raw.pf_key ?? raw.pf_id,
     pf_id: raw.pf_id,
     pf_name: raw.pf_name,
     pf_type: raw.pf_type,
