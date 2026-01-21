@@ -4,7 +4,7 @@ import Heading from "../title/Heading";
 const Navbar = () => {
   return (
     <div className="sticky z-100 top-0 bg-[#063970] text-white flex items-center justify-center ">
-      <h1 className="text-center py-1">
+      <h1 className="text-center text-xl font-semibold py-1">
         PAKISTAN MARITIME SECURITY AGENCY <br /> DATA ANALYSIS DECISION SUPPORT
         SYSTEM (DADSS)
       </h1>

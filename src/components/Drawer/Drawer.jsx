@@ -296,14 +296,20 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { Button } from "../ui/button";
+import Footer from "../Footer/Footer";
 
-const Drawer = ({ children }) => {
+const Drawer = ({
+  backgroundColor,
+  textColor = "text-black",
+  font,
+  width,
+  collapsedWidth,
+}) => {
   const navigate = useNavigate();
   const { sidebarOpen, setSidebarOpen } = useStore();
   const [openMenus, setOpenMenus] = useState({});
   const [hoverMenu, setHoverMenu] = useState(null);
 
-  /* ------------------ RESPONSIVE COLLAPSE ------------------ */
   useEffect(() => {
     const handleResize = () => {
       setSidebarOpen(window.innerWidth > 900);
@@ -314,7 +320,6 @@ const Drawer = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, [setSidebarOpen]);
 
-  /* ------------------ LOGOUT ------------------ */
   const handleLogout = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_MSA_BACKEND_API}/logout`, {
@@ -327,7 +332,6 @@ const Drawer = ({ children }) => {
     navigate("/");
   };
 
-  /* ------------------ DROPDOWN TOGGLE ------------------ */
   const toggleMenu = (label) => {
     setOpenMenus((prev) => ({
       ...prev,
@@ -335,7 +339,6 @@ const Drawer = ({ children }) => {
     }));
   };
 
-  /* ------------------ ROLE FILTER ------------------ */
   const category = Cookies.get("category");
 
   const filteredLinks = sidebarLinks.filter((item) => {
@@ -344,16 +347,16 @@ const Drawer = ({ children }) => {
     if (category === "C" && item.adminOnly) return false;
     return true;
   });
-
   return (
     <div className="flex">
       {/* ================= SIDEBAR ================= */}
       <aside
         className={`
-          fixed  z-40 h-screen
+          fixed  z-40 h-screen 
           transition-all duration-300 ease-in-out
-          ${sidebarOpen ? "w-87.5" : "w-20"}
-          bg-gray-200
+          ${sidebarOpen && width ? width : collapsedWidth}
+          ${!backgroundColor ? "bg-gray-200" : backgroundColor}
+          ${textColor}
 
         `}
       >
@@ -378,35 +381,36 @@ const Drawer = ({ children }) => {
             const isDropdown = !!item.children;
             /* ===== NORMAL LINK ===== */
             if (!isDropdown) {
-              const link = (
-                <NavLink
-                  key={item.label}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `
+              return (
+                <div key={item.label} className="">
+                  <Tooltip className="">
+                    <TooltipTrigger className="w-full">
+                      <NavLink
+                        key={item.label}
+                        to={item.path}
+                        className={({ isActive }) =>
+                          `
                       flex items-center gap-3 ml-4  px-3 py-2 rounded-md
                       transition-all duration-200
                       ${isActive ? "bg-[#939393]" : "hover:bg-gray-300"}
                     `
-                  }
-                >
-                  <Icon size={20} />
-                  {sidebarOpen && <span>{item.label}</span>}
-                </NavLink>
-              );
-              return sidebarOpen ? (
-                <div key={item.label}>{link}</div>
-              ) : (
-                <Tooltip key={item.label}>
-                  <TooltipTrigger asChild>{link}</TooltipTrigger>
-                  <TooltipContent side="right" className={"text-md"}>
-                    {item.label}
-                  </TooltipContent>
-                </Tooltip>
+                        }
+                      >
+                        <Icon size={20} />
+                        {sidebarOpen && <span>{item.label}</span>}
+
+                        {!sidebarOpen && (
+                          <TooltipContent side="right" className={"text-md"}>
+                            {item.label}
+                          </TooltipContent>
+                        )}
+                      </NavLink>
+                    </TooltipTrigger>
+                  </Tooltip>
+                </div>
               );
             }
 
-            //         /* ===== DROPDOWN ===== */
             return (
               <div key={item.label} className="mt-1">
                 <div
@@ -458,7 +462,7 @@ const Drawer = ({ children }) => {
                             `
                       flex items-center gap-2 w-full ${sidebarOpen && "ml-4 px-9 "} px-3  py-2 text-sm rounded-md
                       transition-all
-                      ${isActive ? "bg-[#939393]" : "hover:bg-gray-300"}
+                      ${isActive ? "bg-[#939393]" : "hover:bg-gray-400"}
                     `
                           }
                         >
@@ -476,6 +480,9 @@ const Drawer = ({ children }) => {
 
         <Logout handleLogout={handleLogout} />
       </aside>
+      <div className="absolute bottom-0">
+        <Footer />
+      </div>
     </div>
   );
 };
