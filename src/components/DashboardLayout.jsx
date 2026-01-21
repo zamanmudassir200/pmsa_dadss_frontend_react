@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { sidebarLinks } from "@/adapters/sidebar/sidebarLinks";
 import { FaChevronDown } from "react-icons/fa";
 import Drawer from "./Drawer/Drawer";
+import Footer from "./Footer/Footer";
 
 const DashboardLayout = () => {
   const { sidebarOpen, setSidebarOpen } = useStore();
