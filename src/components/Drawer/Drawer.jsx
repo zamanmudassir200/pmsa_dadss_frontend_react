@@ -94,7 +94,7 @@ const Drawer = ({
         </div>
 
         {/* ---------- MENU ---------- */}
-        <nav className="px-2 pr-2 mt-3 h-[calc(100vh-140px)] overflow-y-auto ">
+        <nav className="px-2  pr-2 mt-3 h-[calc(100vh-160px)] overflow-y-auto ">
           {filteredLinks.map((item) => {
             const Icon = item.icon;
             const isDropdown = !!item.children;
