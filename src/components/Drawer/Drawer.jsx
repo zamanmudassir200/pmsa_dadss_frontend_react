@@ -6,14 +6,8 @@ import { sidebarLinks } from "@/adapters/sidebar/sidebarLinks";
 import { useStore } from "@/store/store";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { FaPowerOff } from "react-icons/fa6";
 import Logout from "../Logout/Logout";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../ui/button";
 import Footer from "../Footer/Footer";
 

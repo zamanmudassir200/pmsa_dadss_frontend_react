@@ -3,7 +3,7 @@ import { useMutate } from "@/hooks/common/useMutate";
 import { platformService } from "../../services/platformData.service";
 import { platformAdapter } from "../../adapters/platform/paltform.adapter";
 import { useStore } from "@/store/store";
-import { getApiErrorMessage } from "@/utils/utils";
+import { getApiErrorMessage } from "@/utils/errorApiMessage";
 import { toastError, toastSuccess } from "@/utils/toast";
 
 export const usePlatforms = ({
