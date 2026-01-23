@@ -25,14 +25,12 @@ const DashboardLayout = () => {
       {/* Sidebar */}
       <Drawer
         backgroundColor={""}
-        width={"w-87.5"}
+        width={"w-[350px]"}
         collapsedWidth={"w-20"}
         textColor={""}
       />
       {/* Right Content */}
-      <main
-        className={`flex-1 h-screen ${sidebarOpen ? "pl-88" : "pl-20"}  bg-gray-100 overflow-y-auto `}
-      >
+      <main className={`flex-1 h-screen bg-gray-100 overflow-y-auto `}>
         <Outlet />
       </main>
     </div>

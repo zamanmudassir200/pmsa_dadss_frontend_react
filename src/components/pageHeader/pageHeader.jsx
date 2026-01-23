@@ -45,7 +45,7 @@ function PageHeaderStyled(props) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="">
       {apidata && (
         <div
           className="flex items-center space-x-2 mt-5 ml-5 cursor-pointer"
@@ -56,24 +56,21 @@ function PageHeaderStyled(props) {
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mt-5">
-        <div className="flex items-center space-x-1">
+      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mt-1">
+        <div className="flex items-center ">
           <Tooltip>
             <div className="flex items-center justify-center">
-              <div className="">
-                <Heading level={3} text={title} />
+              <div className="ml-2 mb-4">
+                <TooltipTrigger>
+                  <Heading className="font-semibold " level={3} text={title} />
+                </TooltipTrigger>
               </div>{" "}
               <div className="mt-2">
-                <TooltipTrigger>
-                  <GrCircleInformation
-                    className="ml-1 text-gray-500"
-                    size={13}
-                  />
-                </TooltipTrigger>
+                <GrCircleInformation className="ml-1 text-gray-500" size={13} />
               </div>
             </div>
-            <TooltipContent>
-              <p>{hover}</p>
+            <TooltipContent className={"z-1000"}>
+              <p className="text-[15px]">{hover}</p>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -89,37 +86,40 @@ function PageHeaderStyled(props) {
             >
               <Button
                 variant="secondary"
-                className="flex bg-yellow-500 hover:bg-yellow-600 cursor-pointer items-center gap-2"
+                className=" w-[139.73px] px-3.75 py-1 h-8 bg-[#dea109] hover:bg-yellow-600 text-[14px] font-normal rounded-sm flex  gap-x-3 cursor-pointer items-center"
               >
                 <FaFileDownload />
-                DOWNLOAD
+                <span> DOWNLOAD</span>
               </Button>
             </CSVLink>
           )}
 
           {componentRef && ReactToPrint ? (
-            <Button className="cursor-pointer bg-black">
+            <button
+              className="cursor-pointer text-white flex px-3.75 py-1 w-[97.23px] bg-[#555555]
+ items-center gap-2"
+            >
               <ReactToPrint
                 trigger={() => (
-                  <Button
-                    variant="secondary"
-                    className="flex bg-red-800 items-center gap-2"
+                  <button
+                    className="flex px-3.75 py-1 w-[97.23px] bg-[#555555]
+ items-center gap-2"
                   >
                     <FaPrint />
                     PRINT
-                  </Button>
+                  </button>
                 )}
                 content={() => componentRef.current}
               />
-            </Button>
+            </button>
           ) : (
             <Button
               variant="secondary"
-              className="flex cursor-pointer bg-gray-400 hover:bg-gray-500 items-center gap-2"
+              className="flex cursor-pointer bg-[#555555] text-white hover:bg-[#555555] items-center gap-2"
               onClick={() => window.print()}
             >
               <FaPrint />
-              PRINT
+              <span className="font-normal"> PRINT</span>{" "}
             </Button>
           )}
 
@@ -127,7 +127,7 @@ function PageHeaderStyled(props) {
             <Button
               onClick={onNavigate}
               variant="secondary"
-              className="flex items-center gap-2 bg-blue-600 cursor-pointer text-white hover:bg-blue-700"
+              className="flex items-center gap-2 bg-[#063970] cursor-pointer text-white hover:bg-[#063970]"
             >
               <VscAdd />
               {btnTitle || "Add"}
@@ -138,5 +138,4 @@ function PageHeaderStyled(props) {
     </div>
   );
 }
-
 export default PageHeaderStyled;

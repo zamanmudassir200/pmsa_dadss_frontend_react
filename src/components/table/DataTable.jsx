@@ -266,7 +266,7 @@ export default function DataTable({
   let bgColor = !backgroundColor ? "bg-[#063970]" : backgroundColor;
   return (
     <div>
-      <div className="overflow-x-auto relative" ref={tableRef}>
+      <div className="overflow-x-auto  relative" ref={tableRef}>
         <ReactDragListView.DragColumn {...dragProps}>
           <div className="rounded-xl overflow-hidden ">
             <Table
