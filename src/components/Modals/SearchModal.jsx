@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BsSearch } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
 
 const SearchModal = ({
   col,
@@ -29,11 +30,10 @@ const SearchModal = ({
       >
         <DialogTrigger asChild>
           <Button
-            variant="ghost"
-            size="sm"
-            className=" p-0 text-white cursor-pointer hover:bg-white/20"
+            variant="primary"
+            className=" text-white -ml-2 cursor-pointer"
           >
-            <BsSearch size={10} />
+            <FaSearch size={10} />
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-100">

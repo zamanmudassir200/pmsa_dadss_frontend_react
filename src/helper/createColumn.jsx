@@ -37,7 +37,7 @@ const createColumn = ({
     index,
     isEditing,
     isAddingRow,
-    onFieldChange
+    onFieldChange,
   ) => {
     if (isAddingRow) {
       return fieldType === "select" ? (
@@ -50,7 +50,7 @@ const createColumn = ({
             }
           >
             <SelectTrigger
-              className={`w-full border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-400 ${
+              className={`w-full  border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-400 ${
                 errors[fieldKey] ? "border-red-500 " : ""
               }`}
             >
@@ -79,7 +79,7 @@ const createColumn = ({
             onChange={(e) => {
               handleTempFieldChange(record.tempId, fieldKey, e.target.value);
             }}
-            className={`w-36 border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+            className={`w-36 border  rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
               errors[fieldKey] ? "border-red-500" : ""
             }`}
           />
@@ -122,16 +122,14 @@ const createColumn = ({
         </div>
       ) : (
         <div
-          className={`${
-            !text && validation.required && "py-4"
-          } relative w-36`}
+          className={`${!text && validation.required && "py-4"} relative w-36`}
         >
           <Input
             value={text ?? ""}
             placeholder={fieldTitle}
             onChange={(e) => onFieldChange(fieldKey, e.target.value)}
             className={`w-36 border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-             validation.required && !text ? "border-red-500" : ""
+              validation.required && !text ? "border-red-500" : ""
             }`}
           />
           {!text && validation.required && (

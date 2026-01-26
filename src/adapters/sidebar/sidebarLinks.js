@@ -1,23 +1,18 @@
-import { MdDashboard } from "react-icons/md";
-import { FaDatabase } from "react-icons/fa";
-import { FaChevronDown } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
-import { FaRegUser } from "react-icons/fa";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { IoGridOutline } from "react-icons/io5";
-import { FiDatabase } from "react-icons/fi";
 import { TbReportAnalytics } from "react-icons/tb";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
-import { FaRegCopy } from "react-icons/fa6";
-import { GiArtificialIntelligence } from "react-icons/gi";
-import { GiIronHulledWarship } from "react-icons/gi";
-import { MdFormatListBulletedAdd } from "react-icons/md";
 import { GiMedicalPack } from "react-icons/gi";
-import { PiChartLineUpBold } from "react-icons/pi";
 import { FaAnchor } from "react-icons/fa";
-import { SiRescuetime } from "react-icons/si";
 import { RxDashboard } from "react-icons/rx";
+import { FaLifeRing } from "react-icons/fa";
+
+import { AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
+import { HiOutlineDocumentDuplicate } from "react-icons/hi";
+import { TbDatabase } from "react-icons/tb";
+import { GiArtificialIntelligence, GiIronHulledWarship } from "react-icons/gi";
+import { MdAppRegistration } from "react-icons/md";
+import { SlGraph } from "react-icons/sl";
 
 export const sidebarLinks = [
   {
@@ -30,18 +25,18 @@ export const sidebarLinks = [
     label: "Admin",
     icon: RiAdminLine,
     children: [
-      { label: "Users", path: "user", icon: FaRegUser },
+      { label: "Users", path: "user", icon: AiOutlineUser },
       { label: "User Roles", path: "user_groups", icon: AiOutlineUsergroupAdd },
     ],
   },
   {
     label: "Platform Data",
-    icon: FiDatabase,
+    icon: TbDatabase,
     path: "platform_data",
   },
   {
     label: "Jetty Data",
-    icon: FiDatabase,
+    icon: TbDatabase,
     path: "jetty_data",
   },
   {
@@ -72,7 +67,7 @@ export const sidebarLinks = [
   },
   {
     label: "Data Input Forms",
-    icon: FaRegCopy,
+    icon: HiOutlineDocumentDuplicate,
     children: [
       {
         label: "Intel Data Input Form",
@@ -92,22 +87,22 @@ export const sidebarLinks = [
       {
         label: "Fishing Vessel Data Input Form",
         path: "registered_vessels",
-        icon: MdFormatListBulletedAdd,
+        icon: MdAppRegistration,
       },
       {
         label: "Merchant Vessel Data Input Form",
         path: "registered_merchant_vessels",
-        icon: MdFormatListBulletedAdd,
+        icon: MdAppRegistration,
       },
       {
         label: "Picket Data Input Form",
         path: "search_vessel",
-        icon: MdFormatListBulletedAdd,
+        icon: MdAppRegistration,
       },
       {
         label: "SAR Data Input Form",
         path: "search_and_rescue",
-        icon: SiRescuetime,
+        icon: FaLifeRing,
       },
       {
         label: "Medical Assistance Input Form",
@@ -134,7 +129,7 @@ export const sidebarLinks = [
   {
     label: "Merchant Vessel Trips Summary",
     path: "activity_maps_and_trends/merchant_vessel_trends/mvs_trips",
-    icon: PiChartLineUpBold,
+    icon: SlGraph,
   },
   {
     label: "Data View",

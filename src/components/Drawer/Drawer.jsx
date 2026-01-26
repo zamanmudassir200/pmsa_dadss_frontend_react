@@ -69,19 +69,15 @@ const Drawer = ({
       >
         <aside
           className={`
-    fixed z-40 h-screen 
-    transition-all duration-300 ease-in-out
-    shadow-2xl 
-        ${sidebarOpen ? "w-86" : "w-18.5"}
-
-    ${!backgroundColor ? "bg-[#d3d3d3]" : backgroundColor}
-    ${textColor}
+    fixed z-40 h-screen px-[1.75px] transition-all duration-300 ease-in-out shadow-2xl 
+        ${sidebarOpen ? "w-86.25" : "w-18.5"} ${!backgroundColor ? "bg-[#d3d3d3]" : backgroundColor}  
+         ${textColor}
   `}
         >
           {/* ---------- HEADER ---------- */}
           <div className="flex items-center  p-2.5 h-14.5">
             {sidebarOpen && (
-              <h1 className="text-[24px] font-bold tracking-wide ml-5">
+              <h1 className="text-[24px] pb-2 font-bold tracking-wide ml-5">
                 DADSS
               </h1>
             )}
@@ -101,7 +97,7 @@ const Drawer = ({
           </div>
 
           {/* ---------- MENU ---------- */}
-          <nav className="px-1  pr-1 mt-3 h-[calc(100vh-160px)] overflow-y-auto ">
+          <nav className=" mt-1  px-[4.25px] mb-1 w-full h-[calc(100vh-160px)] overflow-y-auto ">
             {filteredLinks.map((item) => {
               const Icon = item.icon;
               const isDropdown = !!item.children;
@@ -112,7 +108,7 @@ const Drawer = ({
                     // onMouseEnter={() => !sidebarOpen && setHoverTooltip(true)}
                     // onMouseLeave={() => !sidebarOpen && setHoverTooltip(false)}
                     key={item.label}
-                    className=""
+                    className="mb-1"
                   >
                     <Tooltip className="">
                       <TooltipTrigger className="w-full">
@@ -120,15 +116,16 @@ const Drawer = ({
                           key={item.label}
                           to={item.path}
                           className={({ isActive }) =>
-                            `
-                      flex items-center gap-3 ml-4  px-3 py-2 rounded-md
+                            `flex items-center gap-2.5 pl-6 py-2 h-10 rounded-md
                       transition-all duration-200
-                      ${isActive ? "bg-[#939393]" : "hover:bg-gray-300"}
+                      ${isActive ? "bg-[#939393]" : "hover:bg-[#c5c3c3]"}
                     `
                           }
                         >
                           <Icon size={20} />
-                          {sidebarOpen && <span>{item.label}</span>}
+                          {sidebarOpen && (
+                            <span className=" text-[14.5px]">{item.label}</span>
+                          )}
 
                           {!sidebarOpen && (
                             <TooltipContent side="right" className={"text-md"}>
@@ -143,7 +140,7 @@ const Drawer = ({
               }
 
               return (
-                <div key={item.label} className="mt-1">
+                <div key={item.label} className="mt-1 mb-1.75 ">
                   <div
                     onClick={() => sidebarOpen && toggleMenu(item.label)}
                     onMouseEnter={() =>
@@ -151,17 +148,19 @@ const Drawer = ({
                     }
                     onMouseLeave={() => !sidebarOpen && setHoverMenu(null)}
                     // onClick={() => toggleMenu(item.label)}
-                    className="flex items-center ml-4 justify-between px-3 py-2 cursor-pointer rounded-md hover:bg-white/20 relative"
+                    className="flex items-center pl-6 py-2  justify-between px-3  cursor-pointer rounded-md hover:bg-[#c5c3c3] relative"
                   >
-                    <div className="flex items-center gap-3">
-                      <Icon size={20} />
-                      {sidebarOpen && <span>{item.label}</span>}
+                    <div className="flex items-center gap-2.5">
+                      <Icon size={18} />
+                      {sidebarOpen && (
+                        <span className="text-[14.5px]">{item.label}</span>
+                      )}
                     </div>
 
                     {sidebarOpen && (
                       <FaChevronDown
-                        size={12}
-                        className={`transition-transform ${
+                        size={10}
+                        className={`transition-transform mr-1.5 mb-0.5 ${
                           openMenus[item.label] ? "rotate-180" : ""
                         }`}
                       />
@@ -177,7 +176,7 @@ const Drawer = ({
                       }
                       onMouseLeave={() => !sidebarOpen && setHoverMenu(null)}
                       className={`
-              mt-1 flex flex-col  gap-1
+              mt-0.75 flex flex-col  gap-0.5
               ${
                 !sidebarOpen
                   ? "absolute left-18 top-20 bg-gray-200 shadow-lg rounded-md w-48 z-50"
@@ -193,14 +192,14 @@ const Drawer = ({
                             to={child.path}
                             className={({ isActive }) =>
                               `
-                      flex items-center gap-2 w-full ${sidebarOpen && "ml-4 px-9 "} px-3  py-2 text-sm rounded-md
-                      transition-all
-                      ${isActive ? "bg-[#939393]" : "hover:bg-gray-400"}
+                      flex items-center gap-2.5 w-full  ${sidebarOpen && " px-12 "} px-3  py-3 rounded-md
+                      transition-all h-10 mt-1 
+                      ${isActive ? "bg-[#939393]" : "hover:bg-[#c5c3c3]"}
                     `
                             }
                           >
-                            <ChildIcon size={16} />
-                            <span>{child.label}</span>
+                            <ChildIcon size={20} />
+                            <span className="text-[14.5px]">{child.label}</span>
                           </NavLink>
                         );
                       })}
@@ -214,9 +213,9 @@ const Drawer = ({
           <Logout handleLogout={handleLogout} />
         </aside>
       </div>
-      <div className="absolute bottom-0">
+      {/* <div className="absolute bottom-0">
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 };

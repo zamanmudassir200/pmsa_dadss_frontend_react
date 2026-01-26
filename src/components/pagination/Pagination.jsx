@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 export default function Pagination({
   currentPage = 1,
   totalItems = 0,
@@ -73,26 +74,29 @@ export default function Pagination({
     <div
       className={`flex flex-col sm:flex-row items-center justify-between gap-4 mt-2 ${className}`}
     >
-      {/* Showing items info */}
+      {/* Showing items info
       <div className="text-sm text-gray-600">
         Showing{" "}
         <span className="font-semibold">
           {startItem}-{endItem}
         </span>{" "}
         of <span className="font-semibold">{totalItems}</span> items
-      </div>
-
+      </div> */}
       {/* Page navigation */}
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-center w-full  space-x-2">
         {/* Previous button */}
         <Button
-          variant="outline"
-          size="sm"
+          variant="primary"
+          // size="sm"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1"
+          className=" hover:text-blue-500 py-1 cursor-pointer bg-[#161677] "
         >
-          <ChevronLeft className="h-4 w-4" />
+          <BsChevronLeft
+            size={15}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className="text-white text-2xl hover:text-blue-500   "
+          />
           <span className="sr-only">Previous</span>
         </Button>
 
@@ -109,12 +113,13 @@ export default function Pagination({
             ) : (
               <Button
                 key={pageNum}
-                variant={currentPage === pageNum ? "default" : "outline"}
-                size="sm"
+                variant="primary"
+                // variant={currentPage === pageNum ? "default" : "outline"}
+                // size="sm"
                 onClick={() => handlePageChange(pageNum)}
-                className={`px-3 py-1 min-w-10 ${
+                className={`px-3 py-1 min-w-13 cursor-pointer ${
                   currentPage === pageNum
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                    ? "border-blue-500 border  rounded-full  text-blue-500 "
                     : ""
                 }`}
               >
@@ -126,17 +131,16 @@ export default function Pagination({
 
         {/* Next button */}
         <Button
-          variant="outline"
-          size="sm"
+          variant="primary"
+          // size="sm"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1"
+          className="px-2 py-1 cursor-pointer bg-[#161677] "
         >
-          <ChevronRight className="h-4 w-4" />
+          <BsChevronRight className=" text-white " />
           <span className="sr-only">Next</span>
         </Button>
       </div>
-
       {/* Items per page selector */}
       {/* <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-600">Show:</span>
@@ -153,7 +157,7 @@ export default function Pagination({
         </Select>
         <span className="text-sm text-gray-600">per page</span>
       </div> */}
-      <div className="flex items-center space-x-2">
+      {/* <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-600">Show:</span>
         <Select
           value={itemsPerPage.toString()}
@@ -171,7 +175,7 @@ export default function Pagination({
           </SelectContent>
         </Select>
         <span className="text-sm text-gray-600">per page</span>
-      </div>
+      </div> */}
     </div>
   );
 }
