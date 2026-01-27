@@ -41,6 +41,7 @@ import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 import { RxTriangleDown, RxTriangleUp } from "react-icons/rx";
 import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
 import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 export default function DataTable({
   data = [],
@@ -297,7 +298,7 @@ export default function DataTable({
   );
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading table data...</div>;
+    return <div className="text-center py-2">Loading table data...</div>;
     // return <LoadingSpinner />;
   }
   let bgColor = !backgroundColor ? "bg-[#063970]" : backgroundColor;
@@ -323,7 +324,7 @@ export default function DataTable({
                           onMouseEnter={() => setHoveredColumn(col.key)}
                           onMouseLeave={() => setHoveredColumn(null)}
                           key={col.key}
-                          className="text-white r-pointer px-4 py-2 text-left font-medium relative group"
+                          className="text-white r-pointer px-3 py-2 text-left font-medium relative group"
                         >
                           <div className="flex relative items-center justify-between">
                             <div className="flex items-center">
@@ -332,7 +333,7 @@ export default function DataTable({
                                   <span>{col.title}</span>
                                   <TooltipTrigger>
                                     {" "}
-                                    <BsInfoCircle
+                                    <InfoCircleOutlined
                                       className="ml-1 cursor-pointer text-white/80"
                                       size={12}
                                     />
@@ -371,15 +372,15 @@ export default function DataTable({
                                   data={data}
                                 />
                               )}
-                              <PiLineVerticalLight
-                                size={30}
-                                className={`transition-all duration-200 ease-in-out ${
-                                  hoveredColumn === col.key
-                                    ? "opacity-0"
-                                    : "opacity-100"
-                                }`}
-                              />
                             </div>
+                            <PiLineVerticalLight
+                              size={30}
+                              className={`transition-all duration-200 ease-in-out ${
+                                hoveredColumn === col.key
+                                  ? "opacity-0"
+                                  : "opacity-100"
+                              }`}
+                            />
                           </div>
                         </TableHead>
                       ),

@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BsSearch } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 
 const SearchModal = ({
@@ -17,52 +14,69 @@ const SearchModal = ({
   setFilterValues,
   setCurrentPage,
 }) => {
-  const [searchModalOpen, setSearchModalOpen] = useState(null);
+  const [open, setOpen] = useState(false);
+
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }));
     setCurrentPage(1);
   };
+  const hasActiveSearch = Boolean(filterValues[col.key]);
+
   return (
-    <div>
-      <Dialog
-        open={searchModalOpen === col.key}
-        onOpenChange={(open) => setSearchModalOpen(open ? col.key : null)}
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="primary"
+          className={`-ml-2 cursor-pointer ${
+            hasActiveSearch ? "text-[#0000ff]" : "text-white"
+          }`}
+        >
+          <FaSearch size={12} />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="center"
+        side="bottom"
+        className="w-49.75 min-h-23.75 border-none"
       >
-        <DialogTrigger asChild>
+        {/* <p className="text-sm font-semibold mb-2">{col.title} Search</p> */}
+
+        <Input
+          className={"focus:border-none hover:border-blue-500 border "}
+          placeholder={`Search`}
+          value={filterValues[col.key] || ""}
+          onChange={(e) => handleFilterChange(col.key, e.target.value)}
+        />
+
+        <div className="flex justify-between  items-center  gap-2 mt-3">
           <Button
-            variant="primary"
-            className=" text-white -ml-2 cursor-pointer"
+            variant="outline"
+            className={
+              "cursor-pointer text-blue-500 hover:border-blue-500 hover:border border-gray-200 hover:text-blue-500 px-1.5 py-1 "
+            }
+            size="xs"
+            onClick={() => {
+              handleFilterChange(col.key, "");
+              setOpen(false);
+            }}
           >
-            <FaSearch size={10} />
+            Reset
           </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-100">
-          <DialogHeader>
-            <DialogTitle>{col.title} Search</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Input
-              placeholder={`Search ${col.title.toLowerCase()}...`}
-              value={filterValues[col.key] || ""}
-              onChange={(e) => handleFilterChange(col.key, e.target.value)}
-              className="w-full"
-            />
-            <div className="flex justify-end space-x-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  handleFilterChange(col.key, "");
-                  setSearchModalOpen(null);
-                }}
-              >
-                Clear
-              </Button>
-              <Button onClick={() => setSearchModalOpen(null)}>Apply</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+
+          <Button
+            variant="outline"
+            className={
+              "cursor-pointer font-normal  hover:border-blue-500 hover:border border-gray-200 hover:text-blue-500 px-1.5 py-1 "
+            }
+            size="xs"
+            onClick={() => setOpen(false)}
+          >
+            OK
+          </Button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 

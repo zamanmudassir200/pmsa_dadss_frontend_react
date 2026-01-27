@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { MdFilterAlt } from "react-icons/md";
+import { IoMdSearch } from "react-icons/io";
 
 const FilterModal = ({
   col,
@@ -18,13 +18,22 @@ const FilterModal = ({
   setCurrentPage,
   data,
 }) => {
-  const [filterModalOpen, setFilterModalOpen] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
   const getUniqueValues = (key) => {
     const values = data
       .map((item) => item[key])
       .filter((value) => value !== null && value !== undefined && value !== "");
     return [...new Set(values)];
   };
+
+  const uniqueValues = useMemo(() => getUniqueValues(col.key), [data]);
+
+  const filteredValues = uniqueValues.filter((value) =>
+    String(value).toLowerCase().includes(search.toLowerCase()),
+  );
+
   const handleColumnFilterChange = (columnKey, value) => {
     setColumnFilters((prev) => ({
       ...prev,
@@ -32,64 +41,108 @@ const FilterModal = ({
     }));
     setCurrentPage(1);
   };
+
+  const handleReset = () => {
+    handleColumnFilterChange(col.key, []);
+  };
+  const hasActiveFilter = (columnFilters[col.key]?.length || 0) > 0;
+
   return (
-    <div>
-      <Dialog
-        open={filterModalOpen === col.key}
-        onOpenChange={(open) => setFilterModalOpen(open ? col.key : null)}
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="primary"
+          size="sm"
+          className={`cursor-pointer  ${
+            hasActiveFilter ? "text-[#0000ff]" : "text-white"
+          }`}
+        >
+          <MdFilterAlt size={12} />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="start"
+        side="bottom"
+        className="w-49.5 border-none p-3"
       >
-        <DialogTrigger asChild>
+        {/* <p className="text-sm font-semibold mb-2">Filter {col.title}</p> */}
+
+        {/* Search Input */}
+
+        <div className="relative py-2">
+          <IoMdSearch
+            className="absolute left-2 top-4.75 text-gray-400"
+            size={17}
+          />
+          <Input
+            placeholder="Search in filters"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mb-2 text-md  px-7 focus:border-none border-gray-200 border "
+          />
+        </div>
+
+        {/* Checkbox List */}
+        <div className="space-y-2 max-h-60 ">
+          {filteredValues.length > 0 ? (
+            filteredValues.map((value) => {
+              const isChecked =
+                columnFilters[col.key]?.includes(value) || false;
+
+              const toggleValue = () => {
+                const currentFilters = columnFilters[col.key] || [];
+                const newFilters = isChecked
+                  ? currentFilters.filter((v) => v !== value)
+                  : [...currentFilters, value];
+
+                handleColumnFilterChange(col.key, newFilters);
+              };
+
+              return (
+                <div
+                  key={value}
+                  onClick={toggleValue}
+                  className={`flex items-center px-2 py-1 space-x-2 cursor-pointer rounded-md transition 
+        hover:bg-gray-200 ${isChecked ? "bg-blue-100" : ""}`}
+                >
+                  <Checkbox
+                    checked={isChecked}
+                    onCheckedChange={toggleValue}
+                    className="bg-white cursor-pointer data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-200"
+                    id={`filter-${col.key}-${value}`}
+                  />
+                  <Label className="cursor-pointer select-none">{value}</Label>
+                </div>
+              );
+            })
+          ) : (
+            <p className="text-xs text-gray-400 text-center">Not found</p>
+          )}
+        </div>
+
+        {/* Footer Buttons */}
+        <div className="flex justify-between items-center gap-2 mt-3">
           <Button
-            variant="ghost"
+            variant="primary"
+            className={"cursor-pointer hover:text-blue-500"}
             size="sm"
-            className=" cursor-pointer text-white hover:bg-white/20"
+            onClick={handleReset}
           >
-            <MdFilterAlt size={12} />
+            Reset
           </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-100">
-          <DialogHeader>
-            <DialogTitle>Filter {col.title}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2 max-h-60 overflow-y-auto">
-            {getUniqueValues(col.key).map((value) => (
-              <div key={value} className="flex items-center space-x-2">
-                <Checkbox
-                  className={"bg-gray-200 border-black"}
-                  id={`filter-${col.key}-${value}`}
-                  checked={columnFilters[col.key]?.includes(value) || false}
-                  onCheckedChange={(checked) => {
-                    const currentFilters = columnFilters[col.key] || [];
-                    let newFilters;
-                    if (checked) {
-                      newFilters = [...currentFilters, value];
-                    } else {
-                      newFilters = currentFilters.filter((v) => v !== value);
-                    }
-                    handleColumnFilterChange(col.key, newFilters);
-                  }}
-                />
-                <Label htmlFor={`filter-${col.key}-${value}`}>{value}</Label>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button
-              variant="outline"
-              onClick={() => {
-                handleColumnFilterChange(col.key, []);
-                setFilterModalOpen(null);
-              }}
-            >
-              Clear All
-            </Button>
-            <Button onClick={() => setFilterModalOpen(null)}>
-              Apply Filters
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+
+          <Button
+            variant="primary"
+            className={"cursor-pointer hover:text-blue-500"}
+            size="sm"
+            onClick={() => setOpen(false)}
+          >
+            OK
+          </Button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 

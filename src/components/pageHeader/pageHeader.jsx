@@ -56,53 +56,79 @@ function PageHeaderStyled(props) {
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mt-1">
+      <div className="flex flex-col h-10  w-full  md:flex-row md:justify-between items-start md:items-center mt-1 py-3">
         <div className="flex items-center ">
           <Tooltip>
-            <div className="flex items-center justify-center">
-              <div className="ml-2 mb-4">
-                <TooltipTrigger>
+            <TooltipTrigger>
+              <div className="flex items-center justify-center">
+                <div className="ml-2 mb-1">
                   <Heading className="font-semibold " level={3} text={title} />
-                </TooltipTrigger>
-              </div>{" "}
-              <div className="mt-2">
-                <GrCircleInformation className="ml-1 text-gray-500" size={13} />
+                </div>{" "}
+                <div className="mt-1">
+                  <GrCircleInformation className="ml-1 " size={13} />
+                </div>
               </div>
-            </div>
+            </TooltipTrigger>
             <TooltipContent className={"z-1000"}>
               <p className="text-[15px]">{hover}</p>
             </TooltipContent>
           </Tooltip>
         </div>
 
-        <div className="flex flex-wrap gap-2 mt-3 md:mt-0 items-center">
+        {/* <div className="flex flex-wrap min-w-102.5 h-11 border-2 gap-1 mt-3 md:mt-0 "> */}
+        <div className=" flex items-center   gap-1 mr-1 mt-1 mb-2 pl-3    ">
+          {searchBox && (
+            <Input
+              size="medium"
+              allowClear
+              prefix={<SearchOutlined />}
+              className="search-input custom-css-pageheaderSearch mb-2 mr-1 "
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder={placeholder}
+            />
+          )}
           {customChildComponent}
 
           {currentData && (
-            <CSVLink
-              filename={`${title}.csv`}
-              data={currentData || []}
-              className="no-underline"
+            <Button
+              variant="primary"
+              className="rounded bg-[#dea109] h-8 mt-1.25 text-black mr-1 font-normal  custom-css-pageheaderButton py-1 px-3.75 mb-1"
             >
-              <Button
-                variant="secondary"
-                className=" w-[139.73px] px-3.75 py-1 h-8 bg-[#dea109] hover:bg-yellow-600 text-[14px] font-normal rounded-sm flex  gap-x-3 cursor-pointer items-center"
+              <CSVLink
+                filename={title + ".csv"}
+                data={currentData ? currentData : []}
               >
-                <FaFileDownload />
-                <span> DOWNLOAD</span>
-              </Button>
-            </CSVLink>
+                <div className="flex items-center gap-x-3">
+                  <FaFileDownload />
+                  DOWNLOAD
+                </div>
+              </CSVLink>
+            </Button>
+            // <CSVLink
+            //   filename={`${title}.csv`}
+            //   data={currentData || []}
+            //   className="no-underline"
+            // >
+            //   <Button
+            //     variant="secondary"
+            //     className=" w-[139.73px] px-3.75 py-1 h-8 bg-[#dea109] hover:bg-yellow-600 text-[14px] font-normal rounded-sm flex  gap-x-3 cursor-pointer items-center"
+            //   >
+            //     <FaFileDownload />
+            //     <span> DOWNLOAD</span>
+            //   </Button>
+            // </CSVLink>
           )}
 
           {componentRef && ReactToPrint ? (
             <button
-              className="cursor-pointer text-white flex px-3.75 py-1 w-[97.23px] bg-[#555555]
- items-center gap-2"
+              //               className="cursor-pointer text-white flex px-3.75 py-1 w-[97.23px] bg-[#555555]
+              //  items-center gap-2"
+              className="rounded flex min-w-[97.23px] px-4 items-center h8 py-1  justify-center border-darkgray bg-darkgray text-white mr-1 custom-css-pageheaderButton mb-1"
             >
               <ReactToPrint
                 trigger={() => (
                   <button
-                    className="flex px-3.75 py-1 w-[97.23px] bg-[#555555]
+                    className="flex  min-w-[97.23px] px-4  py-1 w-[97.23px] bg-[#555555]
  items-center gap-2"
                   >
                     <FaPrint />
@@ -115,7 +141,7 @@ function PageHeaderStyled(props) {
           ) : (
             <Button
               variant="secondary"
-              className="flex cursor-pointer bg-[#555555] text-white hover:bg-[#555555] items-center gap-2"
+              className="flex cursor-pointer bg-[#555555] py-1  min-w-[97.23px] px-4   h-8 text-white hover:bg-[#555555] items-center gap-2"
               onClick={() => window.print()}
             >
               <FaPrint />
@@ -123,7 +149,7 @@ function PageHeaderStyled(props) {
             </Button>
           )}
 
-          {showButton && (
+          {/* {showButton && (
             <Button
               onClick={onNavigate}
               variant="secondary"
@@ -132,6 +158,22 @@ function PageHeaderStyled(props) {
               <VscAdd />
               {btnTitle || "Add"}
             </Button>
+          )} */}
+          {showButton && (
+            <>
+              <Button
+                variant="primary"
+                onClick={onNavigate}
+                className="rounded border-[#063970] min-w-[144.17px] h-8 py-1 px-4 bg-[#063970] text-white cursor-pointer mr-1 inline-flex items-center "
+              >
+                <div className="flex items-center gap-x-3 ">
+                  <VscAdd color="white"></VscAdd>
+                  {btnTitle ? btnTitle : "Add"}
+                </div>
+                {/* <VscAdd color="white"></VscAdd>
+                  {btnTitle ? btnTitle : "Add"} */}
+              </Button>
+            </>
           )}
         </div>
       </div>

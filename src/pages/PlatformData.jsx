@@ -63,7 +63,7 @@ export default function PlatformData() {
 
   return (
     <div className="p-3 " ref={componentRef}>
-      <div className="my-4">
+      <div className="my-2 pb-4">
         <PageHeaderStyled
           hover="Rapid access to platform data"
           title="Platform Data"
@@ -73,7 +73,7 @@ export default function PlatformData() {
           onNavigate={handleAddRow}
           placeholder="Search Platform ID / Full Name"
           showButton={true}
-          searchBox={true}
+          searchBox={false}
           componentRef={componentRef}
           currentData={platforms}
         />
