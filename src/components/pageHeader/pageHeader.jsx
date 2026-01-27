@@ -76,13 +76,13 @@ function PageHeaderStyled(props) {
         </div>
 
         {/* <div className="flex flex-wrap min-w-102.5 h-11 border-2 gap-1 mt-3 md:mt-0 "> */}
-        <div className=" flex items-center   gap-1 mr-1 mt-1 mb-2 pl-3    ">
+        <div className=" flex items-center  gap-px mr-2 mt-1 mb-2 pl-3    ">
           {searchBox && (
             <Input
               size="medium"
               allowClear
               prefix={<SearchOutlined />}
-              className="search-input custom-css-pageheaderSearch mb-2 mr-1 "
+              className="search-input custom-css-pageheaderSearch mb-2 mr-px"
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={placeholder}
             />
@@ -131,7 +131,7 @@ function PageHeaderStyled(props) {
                     className="flex  min-w-[97.23px] px-4  py-1 w-[97.23px] bg-[#555555]
  items-center gap-2"
                   >
-                    <FaPrint />
+                    <FaPrint className="text-xs" size={12} />
                     PRINT
                   </button>
                 )}
@@ -141,10 +141,10 @@ function PageHeaderStyled(props) {
           ) : (
             <Button
               variant="secondary"
-              className="flex cursor-pointer bg-[#555555] py-1  min-w-[97.23px] px-4   h-8 text-white hover:bg-[#555555] items-center gap-2"
+              className="flex cursor-pointer bg-[#555555] py-1 mr-0.5 min-w-[97.23px] px-4   h-8 text-white text-sm hover:bg-[#555555] items-center gap-2.5"
               onClick={() => window.print()}
             >
-              <FaPrint />
+              <FaPrint className="p-px" size={12} />
               <span className="font-normal"> PRINT</span>{" "}
             </Button>
           )}
@@ -163,6 +163,7 @@ function PageHeaderStyled(props) {
             <>
               <Button
                 variant="primary"
+                size="sm"
                 onClick={onNavigate}
                 className="rounded border-[#063970] min-w-[144.17px] h-8 py-1 px-4 bg-[#063970] text-white cursor-pointer mr-1 inline-flex items-center "
               >
