@@ -8,8 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MdFilterAlt } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
+import { AiFillFilter } from "react-icons/ai";
 
 const FilterModal = ({
   col,
@@ -57,7 +57,7 @@ const FilterModal = ({
             hasActiveFilter ? "text-[#0000ff]" : "text-white"
           }`}
         >
-          <MdFilterAlt size={12} />
+          <AiFillFilter size={12} />
         </Button>
       </PopoverTrigger>
 
