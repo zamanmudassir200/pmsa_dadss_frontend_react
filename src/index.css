@@ -12,7 +12,9 @@ nav::-webkit-scrollbar-thumb {
   background: #9ca3af;
   border-radius: 10px;
 }
-
+div::-webkit-scrollbar-thumb{
+  background:"red",
+}
 @media only screen and (max-width: 768px) {
   .custom-css-pageheaderSearch {
 width: 100%;

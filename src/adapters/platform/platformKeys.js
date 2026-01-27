@@ -1,4 +1,4 @@
- const PlatformFields = {
+const PlatformFields = {
   ID: {
     key: "pf_id",
     title: "Platform ID",
@@ -18,7 +18,7 @@
   TYPE: {
     key: "pf_type",
     title: "Type",
-    filtertype: "unique",
+    filtertype: "filter",
     validation: { required: "Required" },
     component: "select",
     options: ["Aircraft", "Ship", "Others"],
@@ -26,7 +26,7 @@
   SQUADRON: {
     key: "pf_squadron",
     title: "Squadron",
-    filtertype: "unique",
+    filtertype: "filter",
     validation: { required: "Required" },
     component: "select",
     options: ["Vessel A", "Vessel B", "Others"],
@@ -34,7 +34,7 @@
   STATUS: {
     key: "pf_status",
     title: "Status",
-    filtertype: "unique",
+    filtertype: "filter",
     validation: { required: "Required" },
     component: "select",
     options: ["OPS", "Non-OPS"],
@@ -42,6 +42,7 @@
   CO: {
     key: "pf_co",
     title: "CO",
+    filtertype: "filter",
     validation: { required: "Required" },
     component: "input",
   },
@@ -50,17 +51,20 @@
     title: "Fuel Capacity",
     component: "input",
     validation: {},
+    filtertype: "none",
   },
   WATER: {
     key: "pf_watercap",
     title: "Fresh Water Capacity",
     component: "input",
+    filtertype: "none",
     validation: {},
   },
   INFO: {
     key: "pf_info",
     title: "Other Info",
     component: "input",
+    filtertype: "none",
     validation: {},
   },
 };

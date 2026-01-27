@@ -304,7 +304,7 @@ export default function DataTable({
   let bgColor = !backgroundColor ? "bg-[#063970]" : backgroundColor;
   return (
     <div>
-      <div className="overflow-x-auto mb-1 relative" ref={tableRef}>
+      <div className="overflow-x-auto  mb-1 relative" ref={tableRef}>
         <ReactDragListView.DragColumn {...dragProps}>
           <div className="rounded-xl overflow-hidden ">
             <Table
@@ -319,8 +319,6 @@ export default function DataTable({
                     (col) =>
                       visibleColumns.includes(col.key) && (
                         <TableHead
-                          // onMouseEnter={() => setShowVerticalLine(false)}
-                          // onMouseLeave={() => setShowVerticalLine(true)}.
                           onMouseEnter={() => setHoveredColumn(col.key)}
                           onMouseLeave={() => setHoveredColumn(null)}
                           key={col.key}
@@ -361,17 +359,18 @@ export default function DataTable({
                                   setCurrentPage={setCurrentPage}
                                 />
                               )}
+                              {col.filtertype === "none" && null}
                               {/* Filter Icon for unique columns */}
-                              {(col.filtertype === "unique" ||
-                                col.filtertype === "select") && (
-                                <FilterModal
-                                  col={col}
-                                  columnFilters={columnFilters}
-                                  setColumnFilters={setColumnFilters}
-                                  setCurrentPage={setCurrentPage}
-                                  data={data}
-                                />
-                              )}
+                              {col.filtertype &&
+                                col.filtertype === "filter" && (
+                                  <FilterModal
+                                    col={col}
+                                    columnFilters={columnFilters}
+                                    setColumnFilters={setColumnFilters}
+                                    setCurrentPage={setCurrentPage}
+                                    data={data}
+                                  />
+                                )}
                             </div>
                             <PiLineVerticalLight
                               size={30}
