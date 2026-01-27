@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useStore } from "@/store/store";
 import { useEffect } from "react";
 import Drawer from "./Drawer/Drawer";
+import Footer from "./Footer/Footer";
 
 const DashboardLayout = () => {
   const { sidebarOpen, setSidebarOpen } = useStore();
@@ -21,19 +22,24 @@ const DashboardLayout = () => {
   }, [setSidebarOpen]);
 
   return (
-    <div className={`flex`}>
-      {/* Sidebar */}
-      <Drawer
-        backgroundColor={""}
-        width={"w-[350px]"}
-        collapsedWidth={"w-20"}
-        textColor={""}
-      />
-      {/* Right Content */}
-      <main className={`flex-1 h-screen bg-gray-100 overflow-y-auto `}>
-        <Outlet />
-      </main>
-    </div>
+    <>
+      <div className={`flex`}>
+        {/* Sidebar */}
+        <Drawer
+          backgroundColor={""}
+          width={"w-[350px]"}
+          collapsedWidth={"w-20"}
+          textColor={""}
+        />
+        {/* Right Content */}
+        <main className={`flex-1 h-screen bg-gray-100 overflow-y-auto `}>
+          <Outlet />
+        </main>
+      </div>
+      <div className="fixed bottom-0 z-100 w-full">
+        <Footer />
+      </div>
+    </>
   );
 };
 

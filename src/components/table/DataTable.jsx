@@ -309,7 +309,7 @@ export default function DataTable({
           <div className="rounded-xl overflow-hidden ">
             <Table
               style={{ borderRadius: "100" }}
-              className="min-w-full border border-gray-300 rounded-full"
+              className="min-w-full border h-14.25 border-gray-300 rounded-full"
             >
               <TableHeader className={`${bgColor}  rounded-full`}>
                 <TableRow

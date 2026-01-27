@@ -213,9 +213,7 @@ const Drawer = ({
           <Logout handleLogout={handleLogout} />
         </aside>
       </div>
-      {/* <div className="absolute bottom-0">
-        <Footer />
-      </div> */}
+   
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { FaPowerOff } from "react-icons/fa";
 const Logout = ({ handleLogout }) => {
   const { sidebarOpen } = useStore();
   return (
-    <div className="absolute bottom-16 bg-[#808080] w-full px-4 cursor-pointer">
+    <div className="absolute bottom-20 bg-[#808080] w-full px-4 cursor-pointer">
       <div className="flex items-center justify-between gap-3  p-2 rounded-md">
         {sidebarOpen ? (
           <>
@@ -16,7 +16,7 @@ const Logout = ({ handleLogout }) => {
                 alt=""
               />
             </div>
-            <span className="hover:bg-white/20" onClick={handleLogout}>
+            <span className="" onClick={handleLogout}>
               <FaPowerOff />
             </span>
           </>
