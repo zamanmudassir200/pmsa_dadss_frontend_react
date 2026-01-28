@@ -1,6 +1,7 @@
 import { PiLineVerticalLight } from "react-icons/pi";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { RxCross1 } from "react-icons/rx";
+import { VscInbox } from "react-icons/vsc";
 
 import {
   BsThreeDotsVertical,
@@ -398,15 +399,18 @@ export default function DataTable({
 
               <TableBody>
                 {paginatedData.length === 0 ? (
-                  <TableRow>
-                    <TableCell
-                      colSpan={visibleColumns.length + 1}
-                      className="pl-100 py-8 text-gray-500"
-                    >
-                      No data found
-                    </TableCell>
-                  </TableRow>
+                  // <TableRow>
+                  <TableCell
+                    colSpan={visibleColumns.length + 1}
+                    className="relative py-20 flex flex-col bg-white items-center justify-center "
+                  >
+                    <div className="fixed left-200 top-50  ">
+                      <VscInbox className="text-gray-200" size={50} />{" "}
+                      <span className="text-gray-400">No data</span>
+                    </div>
+                  </TableCell>
                 ) : (
+                  // </TableRow>
                   paginatedData.map((row, index) => {
                     const isEditing =
                       row.pf_key === editRowKey || row.tempId === editRowKey;

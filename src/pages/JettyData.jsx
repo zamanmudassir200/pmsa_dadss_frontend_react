@@ -73,7 +73,7 @@ const JettyData = () => {
           onNavigate={handleAddRow}
           placeholder="Search Platform ID / Full Name"
           showButton={true}
-          searchBox={true}
+          searchBox={false}
           componentRef={componentRef}
           currentData={platforms}
         />
