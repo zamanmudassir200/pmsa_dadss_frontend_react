@@ -41,7 +41,7 @@ import { toastError } from "@/utils/toast";
 import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 import { RxTriangleDown, RxTriangleUp } from "react-icons/rx";
 import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
-import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
+import { GoTriangleUp, GoTriangleDown, GoInbox } from "react-icons/go";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
 export default function DataTable({
@@ -397,18 +397,33 @@ export default function DataTable({
                 </TableRow>
               </TableHeader>
 
-              <TableBody>
+              <TableBody className={"bg-white"}>
                 {paginatedData.length === 0 ? (
-                  // <TableRow>
-                  <TableCell
-                    colSpan={visibleColumns.length + 1}
-                    className="relative py-20 flex flex-col bg-white items-center justify-center "
-                  >
-                    <div className="fixed left-200 top-50  ">
-                      <VscInbox className="text-gray-200" size={50} />{" "}
-                      <span className="text-gray-400">No data</span>
-                    </div>
-                  </TableCell>
+                  // <TableRow className={"bg-white"}>
+                  //   <TableCell
+                  //     colSpan={visibleColumns.length + 1}
+                  //     className=" py-20 flex flex-col bg-white items-center w-full justify-center "
+                  //   >
+                  //     <div className="absolute  left-200 top-150">
+                  //       <VscInbox className="text-gray-200" size={50} />{" "}
+                  //       <span className="text-gray-400">No data</span>
+                  //     </div>
+                  //   </TableCell>
+                  // </TableRow>
+                  <TableRow className="bg-white">
+                    <TableCell
+                      colSpan={visibleColumns.length + 1}
+                      className="py-20 bg-white relative"
+                    >
+                      <div className="absolute inset-0 flex pl-125 flex-col justify-center  pointer-events-none">
+                        <GoInbox
+                          className="text-gray-300 mb-2 font-light"
+                          size={60}
+                        />
+                        <span className="text-gray-400 ">No data</span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
                 ) : (
                   // </TableRow>
                   paginatedData.map((row, index) => {
